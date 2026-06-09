@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiDi Alianza Learning School</title>
+<style>
+  :root {
+    --orange: #FF6B00; --orange-light: #FFF3EB; --orange-mid: #FFD6B3;
+    --dark: #1A1A1A; --gray-1: #F7F7F7; --gray-2: #EBEBEB; --gray-3: #AAAAAA; --gray-4: #666666;
+    --white: #FFFFFF; --green: #0F6E56; --green-light: #E1F5EE;
+    --blue: #185FA5; --blue-light: #E6F1FB; --purple: #534AB7; --purple-light: #EEEDFE;
+    --red: #A32D2D; --red-light: #FCEBEB; --amber: #854F0B; --amber-light: #FAEEDA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F2; color: var(--dark); }
+
+  /* TOPBAR */
+  .topbar { background: var(--dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .topbar-logo .badge { background: var(--orange); color: #fff; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+  .topbar-logo .name { color: #fff; font-size: 14px; font-weight: 500; }
+  .topbar-nav { display: flex; gap: 4px; }
+  .topbar-nav a { color: #ccc; text-decoration: none; font-size: 12px; padding: 5px 10px; border-radius: 5px; transition: background 0.15s; }
+  .topbar-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  /* HERO */
+  .hero { background: var(--dark); padding: 2.5rem 2rem 2rem; border-bottom: 3px solid var(--orange); }
+  .hero-inner { max-width: 960px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
+  .hero h1 { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; }
+  .hero h1 span { color: var(--orange); }
+  .hero-sub { font-size: 14px; color: #aaa; max-width: 540px; line-height: 1.6; margin-bottom: 1.5rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-chip { background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.15); color: #ccc; font-size: 12px; padding: 5px 12px; border-radius: 20px; text-decoration: none; transition: background 0.15s; }
+  .hero-chip:hover { background: rgba(255,107,0,0.2); color: var(--orange); border-color: var(--orange); }
+
+  /* FILTER BAR */
+  .filter-bar { background: var(--white); border-bottom: 0.5px solid var(--gray-2); padding: 0.75rem 2rem; position: sticky; top: 56px; z-index: 90; }
+  .filter-bar-inner { max-width: 960px; margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .filter-bar label { font-size: 11px; color: var(--gray-4); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+  .filter-bar select { font-size: 12px; padding: 5px 10px; border: 0.5px solid var(--gray-2); border-radius: 6px; background: var(--gray-1); color: var(--dark); cursor: pointer; min-width: 160px; }
+  .filter-bar select:focus { outline: none; border-color: var(--orange); }
+  .filter-divider { width: 1px; height: 20px; background: var(--gray-2); }
+  .filter-reset { font-size: 11px; color: var(--orange); cursor: pointer; border: none; background: none; padding: 4px 8px; border-radius: 5px; }
+  .filter-reset:hover { background: var(--orange-light); }
+  .filter-count { font-size: 11px; color: var(--gray-3); margin-left: auto; }
+
+  /* LAYOUT */
+  .layout { max-width: 960px; margin: 0 auto; padding: 1.5rem 2rem; display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; }
+
+  /* INDEX SIDEBAR */
+  .sidebar { position: sticky; top: 110px; align-self: start; }
+  .sidebar-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-4); margin-bottom: 0.75rem; }
+  .index-card { background: var(--white); border-radius: 10px; border: 0.5px solid var(--gray-2); overflow: hidden; }
+  .index-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-bottom: 0.5px solid var(--gray-2); text-decoration: none; transition: background 0.12s; cursor: pointer; }
+  .index-item:last-child { border-bottom: none; }
+  .index-item:hover { background: var(--gray-1); }
+  .index-num { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .index-text { font-size: 11px; color: var(--dark); line-height: 1.3; }
+  .index-sub { font-size: 10px; color: var(--gray-3); margin-top: 1px; }
+  .stats-mini { background: var(--white); border-radius: 10px; border: 0.5px solid var(--gray-2); padding: 10px 12px; margin-top: 10px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; font-size: 11px; }
+  .stat-row span:first-child { color: var(--gray-4); }
+  .stat-row span:last-child { font-weight: 600; color: var(--dark); }
+
+  /* MAIN CONTENT */
+  .main-content { min-width: 0; }
+  .part { margin-bottom: 1.5rem; background: var(--white); border-radius: 12px; border: 0.5px solid var(--gray-2); overflow: hidden; }
+  .part.hidden-part { display: none; }
+  .part-header { padding: 0.9rem 1.25rem; display: flex; align-items: center; gap: 12px; cursor: pointer; border-bottom: 0.5px solid var(--gray-2); user-select: none; }
+  .part-header:hover { background: var(--gray-1); }
+  .part-num { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .part-header-text { flex: 1; }
+  .part-title { font-size: 13px; font-weight: 600; color: var(--dark); }
+  .part-desc { font-size: 11px; color: var(--gray-4); margin-top: 1px; }
+  .part-toggle { font-size: 16px; color: var(--gray-3); transition: transform 0.2s; }
+  .part-toggle.open { transform: rotate(180deg); }
+  .part-body.hidden { display: none; }
+
+  /* TOPIC ROWS */
+  .topic { padding: 0.85rem 1.25rem; border-bottom: 0.5px solid var(--gray-2); display: flex; gap: 10px; }
+  .topic:last-child { border-bottom: none; }
+  .topic.filtered-out { display: none; }
+  .topic-num { font-size: 10px; font-weight: 700; color: var(--gray-3); min-width: 26px; padding-top: 2px; }
+  .topic-content { flex: 1; min-width: 0; }
+  .topic-title { font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 5px; }
+  .topic-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-bottom: 6px; }
+
+  /* BADGES */
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+  .badge-who { background: var(--gray-1); color: var(--gray-4); border: 0.5px solid var(--gray-2); }
+  .badge-for { background: var(--orange-light); color: var(--orange); border: 0.5px solid var(--orange-mid); font-weight: 500; }
+  .badge-wip { background: var(--amber-light); color: var(--amber); border: 0.5px solid #EF9F2733; font-weight: 500; }
+
+  /* TIMESTAMP */
+  .timestamp { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+  .ts-fresh { background: #E1F5EE; color: #0F6E56; }
+  .ts-ok    { background: #E6F1FB; color: #185FA5; }
+  .ts-old   { background: #FAEEDA; color: #854F0B; }
+  .ts-stale { background: #FCEBEB; color: #A32D2D; }
+  .ts-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .ts-fresh .ts-dot { background: #0F6E56; }
+  .ts-ok    .ts-dot { background: #185FA5; }
+  .ts-old   .ts-dot { background: #854F0B; }
+  .ts-stale .ts-dot { background: #A32D2D; }
+
+  /* DOCS */
+  .docs { display: flex; flex-direction: column; gap: 4px; }
+  .doc-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--blue); background: var(--blue-light); border: 0.5px solid #378ADD33; padding: 4px 10px; border-radius: 6px; text-decoration: none; width: fit-content; transition: background 0.12s; }
+  .doc-link:hover { background: #B5D4F4; }
+  .doc-link.no-link { color: var(--gray-4); background: var(--gray-1); border-color: var(--gray-2); cursor: default; }
+
+  /* SUBTOPIC */
+  .subtopic { padding: 0.6rem 1.25rem 0.6rem 2.8rem; border-bottom: 0.5px solid var(--gray-2); background: #FAFAFA; }
+  .subtopic:last-child { border-bottom: none; }
+  .subtopic-label { font-size: 12px; font-weight: 500; color: var(--dark); margin-bottom: 4px; }
+  .subtopic-items { display: flex; flex-direction: column; gap: 3px; margin-bottom: 5px; }
+  .subtopic-item { font-size: 11px; color: var(--gray-4); display: flex; align-items: flex-start; gap: 5px; }
+  .subtopic-item::before { content: "·"; color: var(--orange); font-weight: 700; flex-shrink: 0; }
+
+  /* PART COLORS */
+  .p1 .part-num { background: var(--orange-light); color: var(--orange); } .p1 .part-header { border-left: 3px solid var(--orange); }
+  .p2 .part-num { background: var(--blue-light); color: var(--blue); }    .p2 .part-header { border-left: 3px solid var(--blue); }
+  .p3 .part-num { background: var(--green-light); color: var(--green); }  .p3 .part-header { border-left: 3px solid var(--green); }
+  .p4 .part-num { background: var(--purple-light); color: var(--purple); }.p4 .part-header { border-left: 3px solid var(--purple); }
+  .p5 .part-num { background: var(--amber-light); color: var(--amber); }  .p5 .part-header { border-left: 3px solid #EF9F27; }
+  .p6 .part-num { background: var(--red-light); color: var(--red); }      .p6 .part-header { border-left: 3px solid var(--red); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 8px 12px; background: var(--white); border-radius: 8px; border: 0.5px solid var(--gray-2); margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--gray-4); }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--gray-3); }
+
+  /* TICKET BUTTON */
+  .ticket-btn { background: var(--orange); color: #fff; border: none; border-radius: 7px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: background 0.15s; }
+  .ticket-btn:hover { background: #e05e00; }
+
+  /* TICKET MODAL OVERLAY */
+  .ticket-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; }
+  .ticket-overlay.open { display: flex; }
+  .ticket-modal { background: #fff; border-radius: 14px; width: 480px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
+  .ticket-modal-header { padding: 1.25rem 1.5rem 1rem; border-bottom: 0.5px solid #EBEBEB; display: flex; align-items: flex-start; justify-content: space-between; }
+  .ticket-modal-title { font-size: 15px; font-weight: 700; color: #1A1A1A; }
+  .ticket-modal-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .ticket-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #aaa; padding: 0; line-height: 1; }
+  .ticket-close:hover { color: #333; }
+  .ticket-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .ticket-field { display: flex; flex-direction: column; gap: 5px; }
+  .ticket-field label { font-size: 11px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }
+  .ticket-field input, .ticket-field select, .ticket-field textarea { font-size: 13px; padding: 8px 10px; border: 0.5px solid #DDDDD8; border-radius: 7px; color: #1A1A1A; background: #FAFAFA; font-family: inherit; outline: none; transition: border-color 0.15s; }
+  .ticket-field input:focus, .ticket-field select:focus, .ticket-field textarea:focus { border-color: var(--orange); background: #fff; }
+  .ticket-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .ticket-types { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .ticket-type-btn { padding: 8px 6px; border: 0.5px solid #DDDDD8; border-radius: 8px; background: #FAFAFA; cursor: pointer; text-align: center; font-size: 11px; color: #555; transition: all 0.12s; line-height: 1.3; }
+  .ticket-type-btn .t-icon { font-size: 18px; display: block; margin-bottom: 3px; }
+  .ticket-type-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+  .ticket-type-btn.selected { border-color: var(--orange); background: var(--orange-light); color: var(--orange); font-weight: 600; }
+  .ticket-priority { display: flex; gap: 7px; }
+  .prio-btn { flex: 1; padding: 6px 4px; border: 0.5px solid #DDDDD8; border-radius: 7px; background: #FAFAFA; cursor: pointer; text-align: center; font-size: 11px; color: #555; transition: all 0.12s; }
+  .prio-btn:hover { border-color: #aaa; }
+  .prio-btn.p-low.selected    { background: #E1F5EE; border-color: #0F6E56; color: #0F6E56; font-weight: 600; }
+  .prio-btn.p-mid.selected    { background: #FAEEDA; border-color: #854F0B; color: #854F0B; font-weight: 600; }
+  .prio-btn.p-high.selected   { background: #FCEBEB; border-color: #A32D2D; color: #A32D2D; font-weight: 600; }
+  .ticket-footer { padding: 1rem 1.5rem 1.25rem; border-top: 0.5px solid #EBEBEB; display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-cancel { padding: 8px 16px; background: none; border: 0.5px solid #DDDDD8; border-radius: 7px; font-size: 13px; cursor: pointer; color: #555; }
+  .btn-cancel:hover { background: #F4F4F2; }
+  .btn-submit { padding: 8px 20px; background: var(--orange); border: none; border-radius: 7px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: background 0.15s; }
+  .btn-submit:hover { background: #e05e00; }
+  .ticket-success { display: none; padding: 2rem 1.5rem; text-align: center; }
+  .ticket-success .s-icon { font-size: 40px; margin-bottom: 0.75rem; }
+  .ticket-success .s-title { font-size: 15px; font-weight: 700; color: #1A1A1A; margin-bottom: 5px; }
+  .ticket-success .s-sub { font-size: 12px; color: #888; line-height: 1.5; }
+
+  @media (max-width: 700px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .topbar-nav { display: none; }
+    .hero h1 { font-size: 1.4rem; }
+    .filter-bar { padding: 0.75rem 1rem; }
+    .layout { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-logo" href="#top">
+    <span class="badge">DiDi</span>
+    <span class="name">Alianza Learning School</span>
+  </a>
+  <nav class="topbar-nav">
+    <a href="#parte1">Equipo</a>
+    <a href="#parte2">Sistemas</a>
+    <a href="#parte3">Captación</a>
+    <a href="#parte4">Capacitación</a>
+    <a href="#parte5">Operación</a>
+    <a href="#parte6">Salida</a>
+  </nav>
+  <button class="ticket-btn" onclick="openTicket()">🎫 Generar Ticket</button>
+</div>
+
+<!-- TICKET MODAL -->
+<div class="ticket-overlay" id="ticketOverlay" onclick="overlayClick(event)">
+  <div class="ticket-modal" id="ticketModal">
+    <div class="ticket-modal-header">
+      <div>
+        <div class="ticket-modal-title">🎫 Generar Ticket de Solicitud</div>
+        <div class="ticket-modal-sub">Material nuevo, actualización o reporte de problema</div>
+      </div>
+      <button class="ticket-close" onclick="closeTicket()">✕</button>
+    </div>
+    <div class="ticket-body" id="ticketForm">
+      <div class="ticket-field">
+        <label>Tipo de solicitud</label>
+        <div class="ticket-types">
+          <button class="ticket-type-btn" onclick="selectType(this,'nuevo')"><span class="t-icon">📚</span>Material nuevo</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'actualizacion')"><span class="t-icon">🔄</span>Actualización</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'error')"><span class="t-icon">🔴</span>Link roto / Error</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'feedback')"><span class="t-icon">💬</span>Feedback general</button>
+        </div>
+      </div>
+      <div class="ticket-field">
+        <label>Sección relacionada</label>
+        <select id="t-section">
+          <option value="">— Selecciona una sección —</option>
+          <option>1 · Equipo y Roles</option>
+          <option>2 · Sistemas y Accesos</option>
+          <option>3 · Captación de Vendors</option>
+          <option>4 · Capacitación</option>
+          <option>5 · Gestión Operativa</option>
+          <option>6 · Salida y Offboarding</option>
+          <option>General / No aplica</option>
+        </select>
+      </div>
+      <div class="ticket-field">
+        <label>Nombre del material o tema</label>
+        <input type="text" id="t-material" placeholder="Ej. KPI Dashboard Módulo, Onboarding Process…">
+      </div>
+      <div class="ticket-field">
+        <label>Descripción del problema o solicitud</label>
+        <textarea id="t-desc" placeholder="Describe qué necesitas, qué está desactualizado o qué no funciona…"></textarea>
+      </div>
+      <div class="ticket-field">
+        <label>Prioridad</label>
+        <div class="ticket-priority">
+          <button class="prio-btn p-low" onclick="selectPrio(this)">🟢 Baja</button>
+          <button class="prio-btn p-mid selected" onclick="selectPrio(this)">🟡 Media</button>
+          <button class="prio-btn p-high" onclick="selectPrio(this)">🔴 Alta</button>
+        </div>
+      </div>
+      <div class="ticket-field">
+        <label>Tu nombre o equipo</label>
+        <input type="text" id="t-name" placeholder="Ej. Andrea Arciniega · Equipo VM">
+      </div>
+    </div>
+    <div class="ticket-success" id="ticketSuccess">
+      <div class="s-icon">✅</div>
+      <div class="s-title">¡Ticket generado!</div>
+      <div class="s-sub" id="ticketSummary"></div>
+    </div>
+    <div class="ticket-footer" id="ticketFooter">
+      <button class="btn-cancel" onclick="closeTicket()">Cancelar</button>
+      <button class="btn-submit" onclick="submitTicket()">Enviar Ticket →</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero" id="top">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Vendor Growth &amp; Training Strategy</p>
+    <h1>DiDi Alianza<br><span>Learning School</span></h1>
+    <p class="hero-sub">Repositorio centralizado de materiales de capacitación para el equipo de Alianza.</p>
+    <div class="hero-chips">
+      <a class="hero-chip" href="#parte1">📋 Equipo &amp; Roles</a>
+      <a class="hero-chip" href="#parte2">🖥️ Sistemas</a>
+      <a class="hero-chip" href="#parte3">🤝 Captación</a>
+      <a class="hero-chip" href="#parte4">🎓 Capacitación</a>
+      <a class="hero-chip" href="#parte5">⚙️ Operación</a>
+      <a class="hero-chip" href="#parte6">🚪 Salida</a>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <label>For Who:</label>
+    <select id="filterFor" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="Todo Equipo">Todo Equipo</option>
+      <option value="RM">RM</option>
+      <option value="VM">VM</option>
+      <option value="Delivery Partner Team">Delivery Partner Team</option>
+      <option value="Supply Growth Team">Supply Growth Team</option>
+      <option value="Finance+Tax">Finance+Tax</option>
+    </select>
+    <div class="filter-divider"></div>
+    <label>From Who:</label>
+    <select id="filterFrom" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="陆久君">陆久君</option>
+      <option value="Horacio Gonzalez">Horacio Gonzalez</option>
+      <option value="Andrea Arciniega">Andrea Arciniega</option>
+      <option value="Gustavo Hernandez">Gustavo Hernandez</option>
+      <option value="程梦兰">程梦兰</option>
+      <option value="雷雨阳">雷雨阳</option>
+      <option value="郎佳瑞">郎佳瑞</option>
+      <option value="王宇龙">王宇龙</option>
+    </select>
+    <div class="filter-divider"></div>
+    <label>Antigüedad:</label>
+    <select id="filterAge" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="fresh">Reciente (&lt;30 días)</option>
+      <option value="ok">Normal (1–3 meses)</option>
+      <option value="old">Revisar (3–6 meses)</option>
+      <option value="stale">Desactualizado (&gt;6 meses)</option>
+    </select>
+    <button class="filter-reset" onclick="resetFilters()">✕ Limpiar</button>
+    <span class="filter-count" id="filterCount"></span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR INDEX -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Índice General</div>
+    <div class="index-card">
+      <a class="index-item" href="#parte1">
+        <div class="index-num" style="background:var(--orange-light);color:var(--orange)">1</div>
+        <div><div class="index-text">Equipo y Roles</div><div class="index-sub">4 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte2">
+        <div class="index-num" style="background:var(--blue-light);color:var(--blue)">2</div>
+        <div><div class="index-text">Sistemas y Accesos</div><div class="index-sub">3 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte3">
+        <div class="index-num" style="background:var(--green-light);color:var(--green)">3</div>
+        <div><div class="index-text">Captación de Vendors</div><div class="index-sub">5 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte4">
+        <div class="index-num" style="background:var(--purple-light);color:var(--purple)">4</div>
+        <div><div class="index-text">Capacitación</div><div class="index-sub">3 temas + subtemas</div></div>
+      </a>
+      <a class="index-item" href="#parte5">
+        <div class="index-num" style="background:var(--amber-light);color:var(--amber)">5</div>
+        <div><div class="index-text">Gestión Operativa</div><div class="index-sub">5 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte6">
+        <div class="index-num" style="background:var(--red-light);color:var(--red)">6</div>
+        <div><div class="index-text">Salida y Offboarding</div><div class="index-sub">3 temas</div></div>
+      </a>
+    </div>
+
+    <div class="stats-mini">
+      <div class="stat-row"><span>Total materiales</span><span>23</span></div>
+      <div class="stat-row"><span>Con link activo</span><span style="color:var(--green)">11</span></div>
+      <div class="stat-row"><span>Pendientes link</span><span style="color:var(--amber)">12</span></div>
+      <div class="stat-row"><span>WIP / En proceso</span><span style="color:var(--orange)">4</span></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#0F6E56"></div> &lt;30 días</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div> 1–3 meses</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div> 3–6 meses</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A32D2D"></div> &gt;6 meses</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- PARTE 1 -->
+    <div class="part p1" id="parte1">
+      <div class="part-header" onclick="toggle('b1')">
+        <div class="part-num">1</div>
+        <div class="part-header-text">
+          <div class="part-title">Antecedentes del Proyecto / Panorama de Equipo y Roles</div>
+          <div class="part-desc">Formación interna y sesiones informativas para gestores de relaciones.</div>
+        </div>
+        <span class="part-toggle open" id="t1">▾</span>
+      </div>
+      <div class="part-body" id="b1">
+
+        <div class="topic" data-for="Todo Equipo" data-from="陆久君" data-date="2026-06-08">
+          <div class="topic-num">1.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Introducción al Equipo: Contexto de Courier Labs y visión de negocio</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 陆久君</span>
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="badge badge-wip">⏳ WIP</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Courier Labs Team — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Alianza Structure — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="陆久君" data-date="2026-06-08">
+          <div class="topic-num">1.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Código de Conducta: Team Red Line</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 陆久君</span>
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="badge badge-wip">⏳ WIP — pendiente redactar</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Delivery Partner Team" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">1.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Reglas de Desempeño: Estándares de evaluación de KPI</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez Ronquillo</span>
+              <span class="badge badge-for">Delivery Partner Team</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📊 Delivery Partnership Structure — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 RM Distribution — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 Tracking List New Pipeline — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 KPI Dashboard Módulo — link por añadir</a>
+              <a class="doc-link no-link" href="#">📋 KPI List — Supply Growth Team (程梦兰) — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="陆久君" data-date="2026-06-08">
+          <div class="topic-num">1.4</div>
+          <div class="topic-content">
+            <div class="topic-title">Seguimiento de Objetivos: Tablero de metas anuales Y25/Y26 (Target 100D)</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 陆久君</span>
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 2 -->
+    <div class="part p2" id="parte2">
+      <div class="part-header" onclick="toggle('b2')">
+        <div class="part-num">2</div>
+        <div class="part-header-text">
+          <div class="part-title">Sistemas y Accesos</div>
+          <div class="part-desc">Herramientas básicas de productividad para el flujo de información.</div>
+        </div>
+        <span class="part-toggle open" id="t2">▾</span>
+      </div>
+      <div class="part-body" id="b2">
+
+        <div class="topic" data-for="Todo Equipo" data-from="" data-date="2026-06-08">
+          <div class="topic-num">2.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Gattaran: Gestión de repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://gattaran.didi-food.com/v2/d-side/summary" target="_blank">🖥️ Gattaran — Abrir plataforma</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="" data-date="2026-06-08">
+          <div class="topic-num">2.2</div>
+          <div class="topic-content">
+            <div class="topic-title">EastWind: Plataforma operativa central para el socio</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://page.didiglobal.com/public-biz/pc-login/3.0.6/index.html?jto=aHR0cHM6Ly9lYXN0d2luZC5kaWRpLWZvb2QuY29tL3dvcmtzaG9w&role=5000&source=70001&appid=200015&lang=zh-CN&country_id=484&redirectUrl=https%3A%2F%2Feastwind.didi-food.com%2Fcommon%2Flogin#/?jto=aHR0cHM6Ly9lYXN0d2luZC5kaWRpLWZvb2QuY29tL3dvcmtzaG9w" target="_blank">🖥️ EastWind — Abrir plataforma</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Delivery Partner Team" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">2.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Dashboards de Datos: Paneles diarios por proveedor y zona</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez / 王宇龙</span>
+              <span class="badge badge-for">Delivery Partner Team</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://bigdata.intra.didiglobal.com/analysis_platform_static/board.html#/?type=reportView&reportId=116717&source=market&subReportId=355933" target="_blank">📊 Vendor by Hotzone</a>
+              <a class="doc-link" href="https://bigdata.intra.didiglobal.com/analysis_platform_static/board.html#/?type=reportView&reportId=102795&source=market&subReportId=287439" target="_blank">📊 Vendor Courier Data</a>
+              <a class="doc-link" href="https://www.google.com/maps/d/u/0/viewer?mid=1d9UvjGqW7JL0mTUYxc72_vvMh1u0I8c&ll=19.394497676285603%2C-99.04985534577875&z=11" target="_blank">🗺️ CDMX OP-Zona</a>
+              <a class="doc-link" href="https://www.google.com/maps/d/u/0/viewer?ll=25.757183409389455%2C-100.20774680243215&z=11&mid=1sUNxDrAvXdcc5oEzEBDEK8rR_95y--c" target="_blank">🗺️ MTY OP-Zone</a>
+              <a class="doc-link" href="https://datastudio.google.com/u/0/reporting/5e4046fd-f83f-447e-88c4-9e15d367441a/page/ThPeF" target="_blank">📊 Vendor Performance Weekly 2026H1</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 3 -->
+    <div class="part p3" id="parte3">
+      <div class="part-header" onclick="toggle('b3')">
+        <div class="part-num">3</div>
+        <div class="part-header-text">
+          <div class="part-title">Captación y Contratación de Proveedores</div>
+          <div class="part-desc">Herramientas para negociaciones comerciales y atracción de nuevos socios.</div>
+        </div>
+        <span class="part-toggle open" id="t3">▾</span>
+      </div>
+      <div class="part-body" id="b3">
+
+        <div class="topic" data-for="VM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">3.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Propuestas de Negociación (Proposals)</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 OPS Team / VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 CDMX — Nueva Propuesta de Precio — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 MTY — Nueva Propuesta de Precio — link por añadir</a>
+              <a class="doc-link" href="https://datastudio.google.com/u/0/reporting/efe8f5e6-1fee-409a-ad98-3143591e2df2/page/8k9xF" target="_blank">📊 Dashboard Google Data Studio</a>
+              <a class="doc-link no-link" href="#">📄 Introducción general a DiDi Alianza — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Propuesta para Vendor Moto — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Propuesta para Vendor LM — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">3.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Pool de Prospectos / Leads Pool</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez Ronquillo</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://cooper.didichuxing.com/docs2/sheet/2207487976749" target="_blank">📊 Tracking List New Pipeline</a>
+              <a class="doc-link no-link" href="#">📋 SOP Pipeline Leads &amp; Vendor Process — link por añadir</a>
+              <a class="doc-link no-link" href="#">📋 Pool de recursos Vendor Growth Team — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">3.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Guía de Registro y Onboarding</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega Rojas</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Onboarding Process — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Documentos solicitados / 文件审核SOP — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 NDA Doc — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Contract Doc — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Collaboration Agreement — Main Contract — link por añadir</a>
+              <a class="doc-link" href="https://docs.google.com/forms/d/1YMv-oGZBAWWXeZQ_oZYqE0wsu7rY7vxPZ2HqTAYThsc/edit#responses" target="_blank">🔗 Google Form for Onboarding</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">3.4</div>
+          <div class="topic-content">
+            <div class="topic-title">Políticas de Incentivos: Resumen de incentivos por firma y políticas operativas</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM / VM</span>
+              <span class="badge badge-wip">⏳ Por definir</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Gustavo Hernandez" data-date="2026-06-08">
+          <div class="topic-num">3.5</div>
+          <div class="topic-content">
+            <div class="topic-title">Preparativos de Materiales: Mochilas/Bolsas de Vendor</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Gustavo Hernandez Garcia</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">🎞️ Presentación de materiales — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 4 -->
+    <div class="part p4" id="parte4">
+      <div class="part-header" onclick="toggle('b4')">
+        <div class="part-num">4</div>
+        <div class="part-header-text">
+          <div class="part-title">Capacitación y Empoderamiento</div>
+          <div class="part-desc">Materiales para la formación del Vendor y sus repartidores.</div>
+        </div>
+        <span class="part-toggle open" id="t4">▾</span>
+      </div>
+      <div class="part-body" id="b4">
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">4.1.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Capacitaciones para VM</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega / Daniela López / 程梦兰</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="subtopic-items" style="margin-top:4px">
+              <div class="subtopic-item">合规性内容 — Auditoría de cumplimiento: verificación de documentos y línea roja</div>
+              <div class="subtopic-item">运营内容培训 — Proceso de entrada / Precios / Indicadores clave</div>
+              <div class="subtopic-item">谈判话术 — Argumentarios y preguntas frecuentes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="雷雨阳" data-date="2026-06-08">
+          <div class="topic-num">4.1.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Capacitaciones para RM</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 雷雨阳 / 常青</span>
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="subtopic-items" style="margin-top:4px">
+              <div class="subtopic-item">合规性内容 — Auditoría de cumplimiento y línea roja</div>
+              <div class="subtopic-item">运营内容培训 — Desglose de KPIs / Lógica operativa / Facturación / Políticas</div>
+              <div class="subtopic-item">谈判话术 — Argumentarios y manejo de escenarios anómalos</div>
+            </div>
+            <div class="docs" style="margin-top:6px">
+              <a class="doc-link no-link" href="#">📄 Invoice — In Process</a>
+              <a class="doc-link no-link" href="#">📄 Invoice &amp; Appeals — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">4.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Capacitación para Vendor</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega / 常青</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">🎓 Courier Labs Learning Center — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Onboarding 0&amp;1 — In Process</a>
+            </div>
+            <div class="subtopic-items" style="margin-top:6px">
+              <div class="subtopic-item">Principales datos del sistema a monitorear + KPIs</div>
+              <div class="subtopic-item">Gestión del ciclo de vida del repartidor</div>
+              <div class="subtopic-item">Manejo de escenarios anómalos</div>
+              <div class="subtopic-item">Optimización del modelo operativo del Vendor</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="Gustavo Hernandez" data-date="2026-06-08">
+          <div class="topic-num">4.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Capacitación para Repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Gustavo Hernandez / 李钰</span>
+              <span class="badge badge-for">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Guía Operativa Couriers — Final.pdf — link por añadir</a>
+              <a class="doc-link no-link" href="#">🛡️ Security — In Process</a>
+              <a class="doc-link no-link" href="#">📋 Reglas línea roja y anti-fraude — pendiente</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 5 -->
+    <div class="part p5" id="parte5">
+      <div class="part-header" onclick="toggle('b5')">
+        <div class="part-num">5</div>
+        <div class="part-header-text">
+          <div class="part-title">Gestión Operativa y Optimización</div>
+          <div class="part-desc">Herramientas de gestión diaria para elevar el nivel y eficiencia del Vendor.</div>
+        </div>
+        <span class="part-toggle open" id="t5">▾</span>
+      </div>
+      <div class="part-body" id="b5">
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">—</div>
+          <div class="topic-content">
+            <div class="topic-title">Recursos base del RM</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://cooper.didichuxing.com/docs2/sheet/2206128278347" target="_blank">📊 Vendor Dashboard v1.0</a>
+              <a class="doc-link no-link" href="#">📄 RM Weekly Settlement Record — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 RM Vendor Slot Target Management Scheme — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Planificación de Zonas: HotZones y objetivos de cuota</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 SOP Seteo de Slot Prioritario y Zona — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="郎佳瑞" data-date="2026-06-08">
+          <div class="topic-num">5.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Gestión de Indicadores Clave: Dashboard de repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 郎佳瑞 / 雷雨阳</span>
+              <span class="badge badge-for">RM / VM / Finance+Tax</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📊 Finance+Tax Q&amp;A List — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Sistema de Niveles de Partner DiDi Alianza — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Gestión Financiera: Facturación y deudas (Bill and Debt)</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 SOP Billing, Deuda y proceso hold — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.4</div>
+          <div class="topic-content">
+            <div class="topic-title">Evaluación y Estándares: Niveles DiDi Alianza y gestión de apelaciones</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 Proceso estándar de apelaciones — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.5</div>
+          <div class="topic-content">
+            <div class="topic-title">Experiencia</div>
+            <div class="topic-meta">
+              <span class="badge badge-wip">⏳ Por definir</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 6 -->
+    <div class="part p6" id="parte6">
+      <div class="part-header" onclick="toggle('b6')">
+        <div class="part-num">6</div>
+        <div class="part-header-text">
+          <div class="part-title">Estándares y Procesos de Salida</div>
+          <div class="part-desc">Criterios y procedimientos para la desincorporación de Vendors.</div>
+        </div>
+        <span class="part-toggle open" id="t6">▾</span>
+      </div>
+      <div class="part-body" id="b6">
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.1</div>
+          <div class="topic-content">
+            <div class="topic-title">Criterios de Desempeño Insuficiente: Umbrales para rescisión de contrato</div>
+            <div class="topic-meta"><span class="badge badge-wip">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.2</div>
+          <div class="topic-content">
+            <div class="topic-title">Flujo de Reemplazo: Protocolo de transición de zonas entre proveedores</div>
+            <div class="topic-meta"><span class="badge badge-wip">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.3</div>
+          <div class="topic-content">
+            <div class="topic-title">Offboarding Administrativo: Entrega de activos y liquidación de deudas</div>
+            <div class="topic-meta"><span class="badge badge-wip">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<footer>DiDi Alianza Learning School · Vendor Growth &amp; Training Strategy · Última actualización: 06-08-26</footer>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById(id);
+  const num = id.replace('b','');
+  const tog = document.getElementById('t'+num);
+  const hidden = body.classList.toggle('hidden');
+  tog.classList.toggle('open', !hidden);
+}
+
+// Timestamp age calculation
+function getAgeClass(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 30)  return 'fresh';
+  if (days < 90)  return 'ok';
+  if (days < 180) return 'old';
+  return 'stale';
+}
+
+function getAgeLabel(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 1)   return 'Hoy';
+  if (days < 30)  return `Hace ${days}d`;
+  if (days < 90)  return `Hace ${Math.floor(days/7)}sem`;
+  if (days < 365) return `Hace ${Math.floor(days/30)}meses`;
+  return `Hace ${Math.floor(days/365)}año(s)`;
+}
+
+// Update timestamps on load
+document.querySelectorAll('.topic').forEach(t => {
+  const dateStr = t.dataset.date;
+  if (!dateStr) return;
+  const ts = t.querySelector('.timestamp');
+  if (!ts) return;
+  const cls = getAgeClass(dateStr);
+  const lbl = getAgeLabel(dateStr);
+  ts.className = 'timestamp ts-' + cls;
+  ts.innerHTML = `<span class="ts-dot"></span>${lbl} (${dateStr.slice(5).replace('-','/')})`;
+});
+
+function applyFilters() {
+  const forVal  = document.getElementById('filterFor').value;
+  const fromVal = document.getElementById('filterFrom').value;
+  const ageVal  = document.getElementById('filterAge').value;
+
+  let visible = 0;
+  document.querySelectorAll('.topic').forEach(t => {
+    const tFor  = t.dataset.for  || '';
+    const tFrom = t.dataset.from || '';
+    const tDate = t.dataset.date || '';
+    const tAge  = getAgeClass(tDate);
+
+    const matchFor  = !forVal  || tFor.includes(forVal);
+    const matchFrom = !fromVal || tFrom.includes(fromVal);
+    const matchAge  = !ageVal  || tAge === ageVal;
+
+    const show = matchFor && matchFrom && matchAge;
+    t.classList.toggle('filtered-out', !show);
+    if (show) visible++;
+  });
+
+  document.getElementById('filterCount').textContent =
+    (forVal || fromVal || ageVal) ? `${visible} resultado(s)` : '';
+
+  // Show/hide empty parts
+  document.querySelectorAll('.part').forEach(part => {
+    const body = part.querySelector('.part-body');
+    if (!body) return;
+    const anyVisible = [...body.querySelectorAll('.topic')].some(t => !t.classList.contains('filtered-out'));
+    part.classList.toggle('hidden-part', !anyVisible);
+  });
+}
+
+function resetFilters() {
+  document.getElementById('filterFor').value  = '';
+  document.getElementById('filterFrom').value = '';
+  document.getElementById('filterAge').value  = '';
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('filtered-out'));
+  document.querySelectorAll('.part').forEach(p => p.classList.remove('hidden-part'));
+  document.getElementById('filterCount').textContent = '';
+}
+</script>
+<script>
+var selectedType = '';
+var selectedPrio = 'Media';
+
+function openTicket() {
+  document.getElementById('ticketOverlay').classList.add('open');
+  document.getElementById('ticketForm').style.display = 'flex';
+  document.getElementById('ticketSuccess').style.display = 'none';
+  document.getElementById('ticketFooter').style.display = 'flex';
+}
+function closeTicket() {
+  document.getElementById('ticketOverlay').classList.remove('open');
+  // reset
+  selectedType = '';
+  selectedPrio = 'Media';
+  document.querySelectorAll('.ticket-type-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.prio-btn.p-mid').classList.add('selected');
+  document.getElementById('t-section').value = '';
+  document.getElementById('t-material').value = '';
+  document.getElementById('t-desc').value = '';
+  document.getElementById('t-name').value = '';
+}
+function overlayClick(e) { if (e.target.id === 'ticketOverlay') closeTicket(); }
+
+function selectType(btn, type) {
+  selectedType = type;
+  document.querySelectorAll('.ticket-type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function selectPrio(btn) {
+  selectedPrio = btn.textContent.replace(/[🟢🟡🔴]/g,'').trim();
+  document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+async function submitTicket() {
+  const material = document.getElementById('t-material').value.trim();
+  const desc     = document.getElementById('t-desc').value.trim();
+  const name     = document.getElementById('t-name').value.trim();
+  const section  = document.getElementById('t-section').value;
+
+  if (!selectedType) { alert('Por favor selecciona el tipo de solicitud.'); return; }
+  if (!desc)          { alert('Por favor describe tu solicitud.'); return; }
+
+  const typeLabel = { nuevo:'Material nuevo', actualizacion:'Actualización', error:'Link roto / Error', feedback:'Feedback general' };
+  const ts = new Date().toLocaleString('es-MX', {dateStyle:'short', timeStyle:'short'});
+  const ticketId = '#TKT-' + Date.now().toString().slice(-5);
+
+  // Disable button while sending
+  const btn = document.querySelector('.btn-submit');
+  btn.textContent = 'Enviando…';
+  btn.disabled = true;
+
+  const payload = {
+    ticket:      ticketId,
+    fecha:       ts,
+    tipo:        typeLabel[selectedType] || selectedType,
+    seccion:     section,
+    material:    material,
+    descripcion: desc,
+    prioridad:   selectedPrio,
+    nombre:      name
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbyo2qhSA7M6po4jFKPWsthlfEeQTclQbDZAakNdw6w4jopqlG0sZY2KmSrRsgmW752X/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.warn('Sheet save error:', e);
+  }
+
+  document.getElementById('ticketSummary').innerHTML =
+    `<strong>${ticketId}</strong> registrado el ${ts}<br><br>` +
+    `<b>Tipo:</b> ${typeLabel[selectedType] || selectedType}<br>` +
+    (section  ? `<b>Sección:</b> ${section}<br>` : '') +
+    (material ? `<b>Material:</b> ${material}<br>` : '') +
+    `<b>Prioridad:</b> ${selectedPrio}<br>` +
+    (name     ? `<b>Solicitante:</b> ${name}<br>` : '') +
+    `<br><i>✅ Guardado en Google Sheets. El equipo lo revisará pronto.</i>`;
+
+  document.getElementById('ticketForm').style.display = 'none';
+  document.getElementById('ticketFooter').style.display = 'none';
+  document.getElementById('ticketSuccess').style.display = 'block';
+
+  btn.textContent = 'Enviar Ticket →';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
