@@ -136,6 +136,62 @@
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--gray-4); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
 
+
+  /* SEARCH BAR */
+  .search-bar-wrap { background: var(--white); border-bottom: 0.5px solid var(--gray-2); padding: 0.6rem 2rem; position: sticky; top: 100px; z-index: 88; }
+  .search-bar-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 8px; }
+  .search-bar { flex: 1; position: relative; }
+  .search-bar input { width: 100%; padding: 8px 12px 8px 36px; font-size: 13px; border: 0.5px solid var(--gray-2); border-radius: 8px; background: var(--gray-1); color: var(--dark); font-family: inherit; outline: none; transition: border-color 0.15s, background 0.15s; }
+  .search-bar input:focus { border-color: var(--orange); background: var(--white); }
+  .search-bar .s-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray-3); pointer-events: none; }
+  .search-bar .s-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--gray-3); cursor: pointer; display: none; background: none; border: none; padding: 0; }
+  .search-bar .s-clear.visible { display: block; }
+  .search-count { font-size: 11px; color: var(--gray-3); white-space: nowrap; }
+
+  /* CHATBOT BUBBLE */
+  .chat-bubble { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
+  .chat-trigger { width: 52px; height: 52px; border-radius: 50%; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(255,107,0,0.35); transition: transform 0.2s, background 0.15s; }
+  .chat-trigger:hover { transform: scale(1.08); background: #e05e00; }
+  .chat-trigger i { font-size: 24px; color: #fff; }
+  .chat-notif { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: #E24B4A; border-radius: 50%; border: 2px solid var(--white); display: none; }
+  .chat-notif.show { display: block; }
+  .chat-panel { position: absolute; bottom: 64px; right: 0; width: 340px; background: var(--white); border-radius: 14px; border: 0.5px solid var(--gray-2); box-shadow: 0 8px 32px rgba(0,0,0,0.14); display: none; flex-direction: column; overflow: hidden; max-height: 500px; }
+  .chat-panel.open { display: flex; }
+  .chat-head { background: var(--dark); padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-avatar i { font-size: 18px; color: #fff; }
+  .chat-head-text { flex: 1; }
+  .chat-head-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .chat-head-status { font-size: 10px; color: #aaa; display: flex; align-items: center; gap: 4px; }
+  .chat-head-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #1D9E75; display: inline-block; }
+  .chat-close { background: none; border: none; color: #aaa; cursor: pointer; font-size: 18px; padding: 0; }
+  .chat-close:hover { color: #fff; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .msg { max-width: 85%; display: flex; flex-direction: column; gap: 2px; }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble { padding: 8px 11px; border-radius: 10px; font-size: 12px; line-height: 1.5; }
+  .msg.bot .msg-bubble { background: var(--gray-1); color: var(--dark); border-radius: 2px 10px 10px 10px; }
+  .msg.user .msg-bubble { background: var(--orange); color: #fff; border-radius: 10px 2px 10px 10px; }
+  .msg-bubble a { color: var(--blue); text-decoration: underline; font-size: 11px; display: block; margin-top: 3px; }
+  .msg.user .msg-bubble a { color: #ffe0c8; }
+  .msg-time { font-size: 9px; color: var(--gray-3); padding: 0 4px; }
+  .msg.user .msg-time { text-align: right; }
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 8px 11px; background: var(--gray-1); border-radius: 2px 10px 10px 10px; width: fit-content; }
+  .chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-3); animation: bounce 1.2s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+  .chat-suggestions { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 12px 8px; }
+  .chat-sug { font-size: 10px; padding: 4px 9px; border: 0.5px solid var(--orange); border-radius: 10px; color: var(--orange); background: var(--orange-light); cursor: pointer; transition: background 0.12s; }
+  .chat-sug:hover { background: var(--orange-mid); }
+  .chat-input-row { padding: 10px 12px; border-top: 0.5px solid var(--gray-2); display: flex; gap: 7px; align-items: center; }
+  .chat-input { flex: 1; padding: 7px 10px; font-size: 12px; border: 0.5px solid var(--gray-2); border-radius: 8px; font-family: inherit; outline: none; background: var(--gray-1); color: var(--dark); }
+  .chat-input:focus { border-color: var(--orange); background: var(--white); }
+  .chat-send { width: 32px; height: 32px; border-radius: 8px; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; }
+  .chat-send:hover { background: #e05e00; }
+  .chat-send i { font-size: 16px; color: #fff; }
+
   footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--gray-3); }
 
   /* TICKET BUTTON */
@@ -334,6 +390,18 @@
     <span class="filter-count" id="filterCount"></span>
   </div>
 </div>
+
+<div class="search-bar-wrap" id="searchBarWrap">
+  <div class="search-bar-inner">
+    <div class="search-bar">
+      <i class="ti ti-search s-icon" aria-hidden="true"></i>
+      <input type="text" id="globalSearch" placeholder="Buscar materiales, temas, responsables…" oninput="globalSearchFn(this.value)">
+      <button class="s-clear" id="searchClear" onclick="clearSearch()">✕</button>
+    </div>
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
 
 <div class="layout">
 
@@ -857,6 +925,36 @@
 
 <footer data-i18n="footer">DiDi Alianza Learning School · Vendor Growth &amp; Training Strategy · Última actualización: 06-08-26</footer>
 
+
+<!-- CHATBOT BUBBLE -->
+<div class="chat-bubble" id="chatBubble">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-avatar"><i class="ti ti-robot" aria-hidden="true"></i></div>
+      <div class="chat-head-text">
+        <div class="chat-head-name">Ali — Asistente DiDi</div>
+        <div class="chat-head-status">En línea</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSugs">
+      <button class="chat-sug" onclick="sendSug(this)">¿Qué hay en Onboarding?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Cómo accedo a Gattaran?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Qué es EastWind?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Dónde están los KPIs?</button>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" onclick="sendChat()"><i class="ti ti-send" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <button class="chat-trigger" onclick="toggleChat()" aria-label="Abrir asistente">
+    <i class="ti ti-robot" aria-hidden="true"></i>
+  </button>
+  <div class="chat-notif" id="chatNotif"></div>
+</div>
+
 <script>
 function toggle(id) {
   const body = document.getElementById(id);
@@ -1043,6 +1141,8 @@ const i18n = {
     filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Antigüedad:', filterReset:'✕ Limpiar',
     optAll:'Todos', optAllTeam:'Todo Equipo',
     sidebarTitle:'Índice General',
+    idxTitle1:'Equipo y Roles', idxTitle2:'Sistemas y Accesos', idxTitle3:'Captación de Vendors',
+    idxTitle4:'Capacitación', idxTitle5:'Gestión Operativa', idxTitle6:'Salida y Offboarding',
     idx1sub:'4 temas', idx2sub:'3 temas', idx3sub:'5 temas', idx4sub:'3 temas + subtemas', idx5sub:'5 temas', idx6sub:'3 temas',
     statTotal:'Total materiales', statActive:'Con link activo', statPending:'Pendientes link', statWip:'WIP / En proceso',
     ticketBtn:'🎫 Generar Ticket',
@@ -1056,13 +1156,7 @@ const i18n = {
     ticketCancel:'Cancelar', ticketSubmit:'Enviar Ticket →',
     footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Última actualización: 06-08-26',
     tsToday:'Hoy', tsDays:'Hace {n}d', tsWeeks:'Hace {n}sem', tsMonths:'Hace {n}meses', tsYears:'Hace {n}año(s)',
-    ageFresh:'Reciente (<30 días)'
-    idxTitle1:'Equipo y Roles', 
-    idxTitle2:'Sistemas y Accesos', 
-    idxTitle3:'Captación de Vendors', 
-    idxTitle4:'Capacitación', 
-    idxTitle5:'Gestión Operativa', 
-    idxTitle6:'Salida y Offboarding', ageOk:'Normal (1–3 meses)', ageOld:'Revisar (3–6 meses)', ageStale:'Desactualizado (>6 meses)'
+    ageFresh:'Reciente (<30 días)', ageOk:'Normal (1–3 meses)', ageOld:'Revisar (3–6 meses)', ageStale:'Desactualizado (>6 meses)'
   },
   en: {
     nav1:'Team', nav2:'Systems', nav3:'Sourcing', nav4:'Training', nav5:'Operations', nav6:'Offboarding',
@@ -1072,6 +1166,8 @@ const i18n = {
     filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Last updated:', filterReset:'✕ Clear',
     optAll:'All', optAllTeam:'All Team',
     sidebarTitle:'Index',
+    idxTitle1:'Team & Roles', idxTitle2:'Systems & Access', idxTitle3:'Vendor Sourcing',
+    idxTitle4:'Training', idxTitle5:'Operations', idxTitle6:'Offboarding',
     idx1sub:'4 topics', idx2sub:'3 topics', idx3sub:'5 topics', idx4sub:'3 topics + subtopics', idx5sub:'5 topics', idx6sub:'3 topics',
     statTotal:'Total materials', statActive:'Active links', statPending:'Pending links', statWip:'WIP / In progress',
     ticketBtn:'🎫 Submit Ticket',
@@ -1085,13 +1181,7 @@ const i18n = {
     ticketCancel:'Cancel', ticketSubmit:'Submit Ticket →',
     footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Last updated: 06-08-26',
     tsToday:'Today', tsDays:'{n}d ago', tsWeeks:'{n}wk ago', tsMonths:'{n}mo ago', tsYears:'{n}yr ago',
-    ageFresh:'Recent (<30 days)'
-    idxTitle1:'Team & Roles', 
-    idxTitle2:'Systems & Access', 
-    idxTitle3:'Vendor Sourcing', 
-    idxTitle4:'Training', 
-    idxTitle5:'Operations', 
-    idxTitle6:'Offboarding', ageOk:'Normal (1–3 months)', ageOld:'Review (3–6 months)', ageStale:'Outdated (>6 months)'
+    ageFresh:'Recent (<30 days)', ageOk:'Normal (1–3 months)', ageOld:'Review (3–6 months)', ageStale:'Outdated (>6 months)'
   },
   zh: {
     nav1:'团队', nav2:'系统', nav3:'招募', nav4:'培训', nav5:'运营', nav6:'离场',
@@ -1101,6 +1191,8 @@ const i18n = {
     filterForLabel:'受众：', filterFromLabel:'负责人：', filterAgeLabel:'更新时间：', filterReset:'✕ 重置',
     optAll:'全部', optAllTeam:'全体团队',
     sidebarTitle:'目录',
+    idxTitle1:'团队与职责', idxTitle2:'系统与权限', idxTitle3:'供应商招募',
+    idxTitle4:'培训赋能', idxTitle5:'运营管理', idxTitle6:'离场流程',
     idx1sub:'4个主题', idx2sub:'3个主题', idx3sub:'5个主题', idx4sub:'3个主题+子主题', idx5sub:'5个主题', idx6sub:'3个主题',
     statTotal:'材料总数', statActive:'有效链接', statPending:'待补充链接', statWip:'进行中',
     ticketBtn:'🎫 提交工单',
@@ -1114,15 +1206,10 @@ const i18n = {
     ticketCancel:'取消', ticketSubmit:'提交工单 →',
     footer:'DiDi Alianza Learning School · 供应商成长与培训战略 · 最后更新：06-08-26',
     tsToday:'今天', tsDays:'{n}天前', tsWeeks:'{n}周前', tsMonths:'{n}个月前', tsYears:'{n}年前',
-    ageFresh:'最新（<30天）'
-    idxTitle1:'团队与职责', 
-    idxTitle2:'系统与权限', 
-    idxTitle3:'供应商招募', 
-    idxTitle4:'培训赋能', 
-    idxTitle5:'运营管理', 
-    idxTitle6:'离场流程', ageOk:'正常（1–3个月）', ageOld:'需审查（3–6个月）', ageStale:'已过时（>6个月）'
+    ageFresh:'最新（<30天）', ageOk:'正常（1–3个月）', ageOld:'需审查（3–6个月）', ageStale:'已过时（>6个月）'
   }
 };
+
 
 var currentLang = 'es';
 
@@ -1169,6 +1256,194 @@ function getAgeLabelI18n(dateStr, t) {
   if (days < 365) return t.tsMonths.replace('{n}', Math.floor(days/30));
   return t.tsYears.replace('{n}', Math.floor(days/365));
 }
+
+// ── GLOBAL SEARCH ─────────────────────────────────────────────────────────────
+function globalSearchFn(q) {
+  const val = q.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  const countEl = document.getElementById('searchCount');
+  clearBtn.classList.toggle('visible', val.length > 0);
+  if (!val) { clearSearch(); return; }
+  let total = 0;
+  document.querySelectorAll('.topic').forEach(t => {
+    const text = t.innerText.toLowerCase();
+    const match = text.includes(val);
+    t.classList.toggle('filtered-out', !match);
+    if (match) total++;
+  });
+  document.querySelectorAll('.part').forEach(part => {
+    const body = part.querySelector('.part-body');
+    if (!body) return;
+    const any = [...body.querySelectorAll('.topic')].some(t => !t.classList.contains('filtered-out'));
+    part.classList.toggle('hidden-part', !any);
+    if (any && body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      const num = part.id.replace('parte','');
+      const tog = document.getElementById('t'+num);
+      if (tog) tog.classList.add('open');
+    }
+  });
+  countEl.textContent = val ? total + ' resultado(s)' : '';
+}
+function clearSearch() {
+  document.getElementById('globalSearch').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('searchCount').textContent = '';
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('filtered-out'));
+  document.querySelectorAll('.part').forEach(p => p.classList.remove('hidden-part'));
+}
+
+// ── CHATBOT ───────────────────────────────────────────────────────────────────
+const MATERIALES = [
+  {title:'Courier Labs Team', section:'1.1 Introducción al Equipo', keywords:['courier','labs','team','equipo','introducción']},
+  {title:'Alianza Structure', section:'1.1 Introducción al Equipo', keywords:['alianza','structure','estructura']},
+  {title:'Team Red Line', section:'1.2 Código de Conducta', keywords:['red line','línea roja','conducta','cumplimiento','reglas']},
+  {title:'KPI Dashboard', section:'1.3 Reglas de Desempeño', keywords:['kpi','dashboard','desempeño','evaluación','métricas']},
+  {title:'Gattaran', url:'https://gattaran.didi-food.com/v2/d-side/summary', section:'2.1 Sistemas', keywords:['gattaran','repartidores','gestión','sistema']},
+  {title:'EastWind', url:'https://page.didiglobal.com', section:'2.2 Sistemas', keywords:['eastwind','east wind','plataforma','operativa','socio']},
+  {title:'Vendor by Hotzone', section:'2.3 Dashboards', keywords:['hotzone','zona','mapa','dashboard','vendor']},
+  {title:'CDMX OP-Zona', section:'2.3 Dashboards', keywords:['cdmx','ciudad de méxico','zona','mapa']},
+  {title:'MTY OP-Zone', section:'2.3 Dashboards', keywords:['mty','monterrey','zona','mapa']},
+  {title:'Propuesta CDMX', section:'3.1 Propuestas', keywords:['propuesta','cdmx','precio','negociación']},
+  {title:'Propuesta MTY', section:'3.1 Propuestas', keywords:['propuesta','mty','precio','negociación']},
+  {title:'Tracking List New Pipeline', url:'https://cooper.didichuxing.com/docs2/sheet/2207487976749', section:'3.2 Leads Pool', keywords:['pipeline','leads','prospectos','tracking','socios']},
+  {title:'Onboarding Process', section:'3.3 Guía de Registro', keywords:['onboarding','registro','ingreso','proceso']},
+  {title:'Google Form Onboarding', url:'https://docs.google.com/forms/d/1YMv-oGZBAWWXeZQ_oZYqE0wsu7rY7vxPZ2HqTAYThsc/edit', section:'3.3 Guía de Registro', keywords:['form','formulario','registro','onboarding']},
+  {title:'Colaboration Agreement / Contrato', section:'3.3 Guía de Registro', keywords:['contrato','agreement','nda','colaboración','documentos']},
+  {title:'Capacitación para VM', section:'4.1.1 Capacitaciones VM', keywords:['vm','capacitación','vendor','manager','formación']},
+  {title:'Capacitación para RM', section:'4.1.2 Capacitaciones RM', keywords:['rm','relationship','manager','capacitación','formación']},
+  {title:'Guía Operativa Couriers', section:'4.3 Repartidores', keywords:['courier','repartidor','guía','operativa','entrega']},
+  {title:'Vendor Dashboard v1.0', url:'https://cooper.didichuxing.com/docs2/sheet/2206128278347', section:'5. Gestión Operativa', keywords:['vendor','dashboard','datos','métricas','operativo']},
+  {title:'SOP Billing y Deuda', section:'5.3 Gestión Financiera', keywords:['billing','facturación','deuda','sop','finanzas','pago']},
+  {title:'Sistema de Niveles DiDi Alianza', section:'5.2 Indicadores', keywords:['niveles','levels','partner','alianza','beneficios']},
+  {title:'Offboarding / Salida', section:'6. Salida', keywords:['salida','offboarding','rescisión','contrato','baja']},
+];
+
+const FAQ = [
+  { q:['qué es gattaran','para qué sirve gattaran','cómo uso gattaran'], a:'Gattaran es la plataforma para gestionar repartidores. Puedes acceder directamente desde el repositorio en la sección 2.1 Sistemas.' },
+  { q:['qué es eastwind','para qué sirve eastwind','cómo entro a eastwind'], a:'EastWind es la plataforma operativa central para los socios (vendors). Está en la sección 2.2 Sistemas con link directo.' },
+  { q:['cómo hago onboarding','proceso de onboarding','cómo registro un vendor'], a:'El proceso de onboarding está en la sección 3.3. Incluye el Google Form de registro, los documentos requeridos y el Collaboration Agreement.' },
+  { q:['qué son los kpis','indicadores clave','métricas principales'], a:'Los KPIs principales están en la sección 1.3 (evaluación de desempeño) y en la 5.2 (gestión de indicadores). También hay un dashboard en el repositorio.' },
+  { q:['cómo genero un ticket','tengo un problema','algo no funciona','link roto'], a:'Usa el botón 🎫 "Generar Ticket" en la esquina superior derecha. Puedes reportar links rotos, pedir material nuevo o dejar feedback.' },
+  { q:['cómo contacto al equipo','a quién le pregunto','quién es responsable'], a:'Cada material tiene un responsable (From Who). Para dudas generales puedes generar un ticket con tipo "Feedback general" y el equipo te responderá.' },
+  { q:['qué hay en onboarding','materiales de onboarding'], a:'En la sección 3.3 encuentras: el proceso de onboarding, documentos requeridos, NDA, contrato, Collaboration Agreement y el Google Form.' },
+  { q:['cómo cambio el idioma','traducción','inglés','chino'], a:'En la esquina superior derecha hay un selector ES / EN / 中文 para cambiar el idioma de la interfaz.' },
+];
+
+let chatOpen = false;
+let chatInited = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatPanel').classList.toggle('open', chatOpen);
+  document.getElementById('chatNotif').classList.remove('show');
+  if (chatOpen && !chatInited) { chatInited = true; initChat(); }
+  if (chatOpen) setTimeout(() => document.getElementById('chatInput').focus(), 200);
+}
+
+function initChat() {
+  addMsg('bot', '¡Hola! 👋 Soy <strong>Ali</strong>, tu asistente del DiDi Alianza Learning School.<br>Puedo ayudarte a encontrar materiales o responder preguntas del equipo. ¿En qué te ayudo?');
+}
+
+function addMsg(role, html) {
+  const msgs = document.getElementById('chatMessages');
+  const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = `<div class="msg-bubble">${html}</div><div class="msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg bot'; div.id = 'typingIndicator';
+  div.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function sendSug(btn) {
+  const text = btn.textContent;
+  document.getElementById('chatSugs').style.display = 'none';
+  processMessage(text);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('chatSugs').style.display = 'none';
+  processMessage(text);
+}
+
+async function processMessage(text) {
+  addMsg('user', text);
+  showTyping();
+
+  // 1. Search in local materials first
+  const q = text.toLowerCase();
+  const localMatches = MATERIALES.filter(m => m.keywords.some(k => q.includes(k)));
+
+  // 2. Check FAQ
+  const faqMatch = FAQ.find(f => f.q.some(fq => q.includes(fq.split(' ')[0]) && q.includes(fq.split(' ').slice(-1)[0])));
+
+  await new Promise(r => setTimeout(r, 800 + Math.random()*600));
+  hideTyping();
+
+  if (faqMatch) {
+    addMsg('bot', faqMatch.a);
+    if (localMatches.length) {
+      const links = localMatches.slice(0,3).map(m => m.url
+        ? `<a href="${m.url}" target="_blank">🔗 ${m.title} — ${m.section}</a>`
+        : `<span style="color:var(--gray-4)">📄 ${m.title} — ${m.section}</span>`).join('');
+      setTimeout(() => addMsg('bot', 'Materiales relacionados:<br>' + links), 400);
+    }
+    return;
+  }
+
+  if (localMatches.length) {
+    const links = localMatches.slice(0,4).map(m => m.url
+      ? `<a href="${m.url}" target="_blank">🔗 ${m.title} — ${m.section}</a>`
+      : `<span style="color:var(--gray-4)">📄 ${m.title} — ${m.section}</span>`).join('');
+    addMsg('bot', `Encontré ${localMatches.length} material(es) relacionado(s):<br>${links}`);
+    return;
+  }
+
+  // 3. Fall back to Claude API
+  try {
+    showTyping();
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: 'Eres Ali, el asistente virtual del DiDi Alianza Learning School. Ayudas al equipo de Alianza (Venezuela Growth, RM, VM) con preguntas sobre materiales de capacitación, procesos operativos, onboarding de vendors, KPIs y herramientas como Gattaran y EastWind. Responde en español, de forma concisa (máximo 3 oraciones). Si no sabes algo específico del repositorio, sugiere generar un ticket.',
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    const data = await res.json();
+    hideTyping();
+    const reply = data.content?.[0]?.text || 'No pude obtener una respuesta. ¿Puedo ayudarte con algo más?';
+    addMsg('bot', reply);
+  } catch(e) {
+    hideTyping();
+    addMsg('bot', 'No encontré materiales exactos para tu búsqueda. Te recomiendo usar el buscador de arriba o generar un ticket 🎫 para que el equipo te ayude.');
+  }
+}
+
+// Show notif after 3s
+setTimeout(() => {
+  if (!chatOpen) document.getElementById('chatNotif').classList.add('show');
+}, 3000);
+
 </script>
 </body>
 </html>
