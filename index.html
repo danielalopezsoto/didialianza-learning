@@ -16,6 +16,10 @@
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F2; color: var(--dark); }
 
   /* TOPBAR */
+  .lang-switcher { display:flex; gap:3px; background:rgba(255,255,255,0.08); padding:3px; border-radius:7px; }
+  .lang-btn { padding:4px 10px; border:none; background:transparent; border-radius:5px; font-size:11px; font-weight:600; cursor:pointer; color:#aaa; transition:all 0.15s; letter-spacing:0.02em; }
+  .lang-btn.active { background:var(--orange); color:#fff; }
+  .lang-btn:hover:not(.active) { background:rgba(255,255,255,0.1); color:#fff; }
   .topbar { background: var(--dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
   .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .topbar-logo .badge { background: var(--orange); color: #fff; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
@@ -192,14 +196,21 @@
     <span class="name">Alianza Learning School</span>
   </a>
   <nav class="topbar-nav">
-    <a href="#parte1">Equipo</a>
-    <a href="#parte2">Sistemas</a>
-    <a href="#parte3">Captación</a>
-    <a href="#parte4">Capacitación</a>
-    <a href="#parte5">Operación</a>
-    <a href="#parte6">Salida</a>
+    <a href="#parte1" data-i18n="nav1">Equipo</a>
+    <a href="#parte2" data-i18n="nav2">Sistemas</a>
+    <a href="#parte3" data-i18n="nav3">Captación</a>
+    <a href="#parte4" data-i18n="nav4">Capacitación</a>
+    <a href="#parte5" data-i18n="nav5">Operación</a>
+    <a href="#parte6" data-i18n="nav6">Salida</a>
   </nav>
-  <button class="ticket-btn" onclick="openTicket()">🎫 Generar Ticket</button>
+  <div style="display:flex;align-items:center;gap:10px">
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+  </div>
+  <button class="ticket-btn" onclick="openTicket()" data-i18n="ticketBtn">🎫 Generar Ticket</button>
+</div>
 </div>
 
 <!-- TICKET MODAL -->
@@ -207,14 +218,14 @@
   <div class="ticket-modal" id="ticketModal">
     <div class="ticket-modal-header">
       <div>
-        <div class="ticket-modal-title">🎫 Generar Ticket de Solicitud</div>
-        <div class="ticket-modal-sub">Material nuevo, actualización o reporte de problema</div>
+        <div class="ticket-modal-title" data-i18n="ticketTitle">🎫 Generar Ticket de Solicitud</div>
+        <div class="ticket-modal-sub" data-i18n="ticketSub">Material nuevo, actualización o reporte de problema</div>
       </div>
       <button class="ticket-close" onclick="closeTicket()">✕</button>
     </div>
     <div class="ticket-body" id="ticketForm">
       <div class="ticket-field">
-        <label>Tipo de solicitud</label>
+        <label data-i18n="ticketTypeLabel">Tipo de solicitud</label>
         <div class="ticket-types">
           <button class="ticket-type-btn" onclick="selectType(this,'nuevo')"><span class="t-icon">📚</span>Material nuevo</button>
           <button class="ticket-type-btn" onclick="selectType(this,'actualizacion')"><span class="t-icon">🔄</span>Actualización</button>
@@ -223,7 +234,7 @@
         </div>
       </div>
       <div class="ticket-field">
-        <label>Sección relacionada</label>
+        <label data-i18n="ticketSectionLabel">Sección relacionada</label>
         <select id="t-section">
           <option value="">— Selecciona una sección —</option>
           <option>1 · Equipo y Roles</option>
@@ -236,15 +247,15 @@
         </select>
       </div>
       <div class="ticket-field">
-        <label>Nombre del material o tema</label>
-        <input type="text" id="t-material" placeholder="Ej. KPI Dashboard Módulo, Onboarding Process…">
+        <label data-i18n="ticketMaterialLabel">Nombre del material o tema</label>
+        <input type="text" id="t-material" data-i18n-ph="ticketMaterialPh" placeholder="Ej. KPI Dashboard Módulo, Onboarding Process…">
       </div>
       <div class="ticket-field">
-        <label>Descripción del problema o solicitud</label>
-        <textarea id="t-desc" placeholder="Describe qué necesitas, qué está desactualizado o qué no funciona…"></textarea>
+        <label data-i18n="ticketDescLabel">Descripción del problema o solicitud</label>
+        <textarea id="t-desc" data-i18n-ph="ticketDescPh" placeholder="Describe qué necesitas, qué está desactualizado o qué no funciona…"></textarea>
       </div>
       <div class="ticket-field">
-        <label>Prioridad</label>
+        <label data-i18n="ticketPrioLabel">Prioridad</label>
         <div class="ticket-priority">
           <button class="prio-btn p-low" onclick="selectPrio(this)">🟢 Baja</button>
           <button class="prio-btn p-mid selected" onclick="selectPrio(this)">🟡 Media</button>
@@ -252,8 +263,8 @@
         </div>
       </div>
       <div class="ticket-field">
-        <label>Tu nombre o equipo</label>
-        <input type="text" id="t-name" placeholder="Ej. Andrea Arciniega · Equipo VM">
+        <label data-i18n="ticketNameLabel">Tu nombre o equipo</label>
+        <input type="text" id="t-name" data-i18n-ph="ticketNamePh" placeholder="Ej. Andrea Arciniega · Equipo VM">
       </div>
     </div>
     <div class="ticket-success" id="ticketSuccess">
@@ -262,24 +273,24 @@
       <div class="s-sub" id="ticketSummary"></div>
     </div>
     <div class="ticket-footer" id="ticketFooter">
-      <button class="btn-cancel" onclick="closeTicket()">Cancelar</button>
-      <button class="btn-submit" onclick="submitTicket()">Enviar Ticket →</button>
+      <button class="btn-cancel" onclick="closeTicket()" data-i18n="ticketCancel">Cancelar</button>
+      <button class="btn-submit" onclick="submitTicket()" data-i18n="ticketSubmit">Enviar Ticket →</button>
     </div>
   </div>
 </div>
 
 <div class="hero" id="top">
   <div class="hero-inner">
-    <p class="hero-eyebrow">Vendor Growth &amp; Training Strategy</p>
+    <p class="hero-eyebrow" data-i18n="heroEyebrow">Vendor Growth &amp; Training Strategy</p>
     <h1>DiDi Alianza<br><span>Learning School</span></h1>
-    <p class="hero-sub">Repositorio centralizado de materiales de capacitación para el equipo de Alianza.</p>
+    <p class="hero-sub" data-i18n="heroSub">Repositorio centralizado de materiales de capacitación para el equipo de Alianza.</p>
     <div class="hero-chips">
-      <a class="hero-chip" href="#parte1">📋 Equipo &amp; Roles</a>
-      <a class="hero-chip" href="#parte2">🖥️ Sistemas</a>
-      <a class="hero-chip" href="#parte3">🤝 Captación</a>
-      <a class="hero-chip" href="#parte4">🎓 Capacitación</a>
-      <a class="hero-chip" href="#parte5">⚙️ Operación</a>
-      <a class="hero-chip" href="#parte6">🚪 Salida</a>
+      <a class="hero-chip" href="#parte1" data-i18n="chip1">📋 Equipo &amp; Roles</a>
+      <a class="hero-chip" href="#parte2" data-i18n="chip2">🖥️ Sistemas</a>
+      <a class="hero-chip" href="#parte3" data-i18n="chip3">🤝 Captación</a>
+      <a class="hero-chip" href="#parte4" data-i18n="chip4">🎓 Capacitación</a>
+      <a class="hero-chip" href="#parte5" data-i18n="chip5">⚙️ Operación</a>
+      <a class="hero-chip" href="#parte6" data-i18n="chip6">🚪 Salida</a>
     </div>
   </div>
 </div>
@@ -287,10 +298,10 @@
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <div class="filter-bar-inner">
-    <label>For Who:</label>
+    <label data-i18n="filterForLabel">For Who:</label>
     <select id="filterFor" onchange="applyFilters()">
-      <option value="">Todos</option>
-      <option value="Todo Equipo">Todo Equipo</option>
+      <option value="" data-i18n="optAll">Todos</option>
+      <option value="Todo Equipo" data-i18n="optAllTeam">Todo Equipo</option>
       <option value="RM">RM</option>
       <option value="VM">VM</option>
       <option value="Delivery Partner Team">Delivery Partner Team</option>
@@ -298,7 +309,7 @@
       <option value="Finance+Tax">Finance+Tax</option>
     </select>
     <div class="filter-divider"></div>
-    <label>From Who:</label>
+    <label data-i18n="filterFromLabel">From Who:</label>
     <select id="filterFrom" onchange="applyFilters()">
       <option value="">Todos</option>
       <option value="陆久君">陆久君</option>
@@ -311,7 +322,7 @@
       <option value="王宇龙">王宇龙</option>
     </select>
     <div class="filter-divider"></div>
-    <label>Antigüedad:</label>
+    <label data-i18n="filterAgeLabel">Antigüedad:</label>
     <select id="filterAge" onchange="applyFilters()">
       <option value="">Todos</option>
       <option value="fresh">Reciente (&lt;30 días)</option>
@@ -319,7 +330,7 @@
       <option value="old">Revisar (3–6 meses)</option>
       <option value="stale">Desactualizado (&gt;6 meses)</option>
     </select>
-    <button class="filter-reset" onclick="resetFilters()">✕ Limpiar</button>
+    <button class="filter-reset" onclick="resetFilters()" data-i18n="filterReset">✕ Limpiar</button>
     <span class="filter-count" id="filterCount"></span>
   </div>
 </div>
@@ -328,39 +339,39 @@
 
   <!-- SIDEBAR INDEX -->
   <aside class="sidebar">
-    <div class="sidebar-title">Índice General</div>
+    <div class="sidebar-title" data-i18n="sidebarTitle">Índice General</div>
     <div class="index-card">
       <a class="index-item" href="#parte1">
         <div class="index-num" style="background:var(--orange-light);color:var(--orange)">1</div>
-        <div><div class="index-text">Equipo y Roles</div><div class="index-sub">4 temas</div></div>
+        <div><div class="index-text">Equipo y Roles</div><div class="index-sub" data-i18n="idx1sub">4 temas</div></div>
       </a>
       <a class="index-item" href="#parte2">
         <div class="index-num" style="background:var(--blue-light);color:var(--blue)">2</div>
-        <div><div class="index-text">Sistemas y Accesos</div><div class="index-sub">3 temas</div></div>
+        <div><div class="index-text">Sistemas y Accesos</div><div class="index-sub" data-i18n="idx2sub">3 temas</div></div>
       </a>
       <a class="index-item" href="#parte3">
         <div class="index-num" style="background:var(--green-light);color:var(--green)">3</div>
-        <div><div class="index-text">Captación de Vendors</div><div class="index-sub">5 temas</div></div>
+        <div><div class="index-text">Captación de Vendors</div><div class="index-sub" data-i18n="idx3sub">5 temas</div></div>
       </a>
       <a class="index-item" href="#parte4">
         <div class="index-num" style="background:var(--purple-light);color:var(--purple)">4</div>
-        <div><div class="index-text">Capacitación</div><div class="index-sub">3 temas + subtemas</div></div>
+        <div><div class="index-text">Capacitación</div><div class="index-sub" data-i18n="idx4sub">3 temas + subtemas</div></div>
       </a>
       <a class="index-item" href="#parte5">
         <div class="index-num" style="background:var(--amber-light);color:var(--amber)">5</div>
-        <div><div class="index-text">Gestión Operativa</div><div class="index-sub">5 temas</div></div>
+        <div><div class="index-text">Gestión Operativa</div><div class="index-sub" data-i18n="idx3sub">5 temas</div></div>
       </a>
       <a class="index-item" href="#parte6">
         <div class="index-num" style="background:var(--red-light);color:var(--red)">6</div>
-        <div><div class="index-text">Salida y Offboarding</div><div class="index-sub">3 temas</div></div>
+        <div><div class="index-text">Salida y Offboarding</div><div class="index-sub" data-i18n="idx2sub">3 temas</div></div>
       </a>
     </div>
 
     <div class="stats-mini">
-      <div class="stat-row"><span>Total materiales</span><span>23</span></div>
-      <div class="stat-row"><span>Con link activo</span><span style="color:var(--green)">11</span></div>
-      <div class="stat-row"><span>Pendientes link</span><span style="color:var(--amber)">12</span></div>
-      <div class="stat-row"><span>WIP / En proceso</span><span style="color:var(--orange)">4</span></div>
+      <div class="stat-row"><span data-i18n="statTotal">Total materiales</span><span>23</span></div>
+      <div class="stat-row"><span data-i18n="statActive">Con link activo</span><span style="color:var(--green)">11</span></div>
+      <div class="stat-row"><span data-i18n="statPending">Pendientes link</span><span style="color:var(--amber)">12</span></div>
+      <div class="stat-row"><span data-i18n="statWip">WIP / En proceso</span><span style="color:var(--orange)">4</span></div>
     </div>
 
     <div class="legend">
@@ -844,7 +855,7 @@
   </div><!-- /main-content -->
 </div><!-- /layout -->
 
-<footer>DiDi Alianza Learning School · Vendor Growth &amp; Training Strategy · Última actualización: 06-08-26</footer>
+<footer data-i18n="footer">DiDi Alianza Learning School · Vendor Growth &amp; Training Strategy · Última actualización: 06-08-26</footer>
 
 <script>
 function toggle(id) {
@@ -1021,6 +1032,124 @@ async function submitTicket() {
 
   btn.textContent = 'Enviar Ticket →';
   btn.disabled = false;
+}
+
+const i18n = {
+  es: {
+    nav1:'Equipo', nav2:'Sistemas', nav3:'Captación', nav4:'Capacitación', nav5:'Operación', nav6:'Salida',
+    heroEyebrow:'Vendor Growth & Training Strategy',
+    heroSub:'Repositorio centralizado de materiales de capacitación para el equipo de Alianza.',
+    chip1:'📋 Equipo & Roles', chip2:'🖥️ Sistemas', chip3:'🤝 Captación', chip4:'🎓 Capacitación', chip5:'⚙️ Operación', chip6:'🚪 Salida',
+    filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Antigüedad:', filterReset:'✕ Limpiar',
+    optAll:'Todos', optAllTeam:'Todo Equipo',
+    sidebarTitle:'Índice General',
+    idx1sub:'4 temas', idx2sub:'3 temas', idx3sub:'5 temas', idx4sub:'3 temas + subtemas', idx5sub:'5 temas', idx6sub:'3 temas',
+    statTotal:'Total materiales', statActive:'Con link activo', statPending:'Pendientes link', statWip:'WIP / En proceso',
+    ticketBtn:'🎫 Generar Ticket',
+    ticketTitle:'🎫 Generar Ticket de Solicitud', ticketSub:'Material nuevo, actualización o reporte de problema',
+    ticketTypeLabel:'Tipo de solicitud', ticketSectionLabel:'Sección relacionada',
+    ticketMaterialLabel:'Nombre del material o tema', ticketDescLabel:'Descripción del problema o solicitud',
+    ticketPrioLabel:'Prioridad', ticketNameLabel:'Tu nombre o equipo',
+    ticketMaterialPh:'Ej. KPI Dashboard Módulo, Onboarding Process…',
+    ticketDescPh:'Describe qué necesitas, qué está desactualizado o qué no funciona…',
+    ticketNamePh:'Ej. Andrea Arciniega · Equipo VM',
+    ticketCancel:'Cancelar', ticketSubmit:'Enviar Ticket →',
+    footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Última actualización: 06-08-26',
+    tsToday:'Hoy', tsDays:'Hace {n}d', tsWeeks:'Hace {n}sem', tsMonths:'Hace {n}meses', tsYears:'Hace {n}año(s)',
+    ageFresh:'Reciente (<30 días)', ageOk:'Normal (1–3 meses)', ageOld:'Revisar (3–6 meses)', ageStale:'Desactualizado (>6 meses)'
+  },
+  en: {
+    nav1:'Team', nav2:'Systems', nav3:'Sourcing', nav4:'Training', nav5:'Operations', nav6:'Offboarding',
+    heroEyebrow:'Vendor Growth & Training Strategy',
+    heroSub:'Centralized training materials repository for the Alianza team.',
+    chip1:'📋 Team & Roles', chip2:'🖥️ Systems', chip3:'🤝 Sourcing', chip4:'🎓 Training', chip5:'⚙️ Operations', chip6:'🚪 Offboarding',
+    filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Last updated:', filterReset:'✕ Clear',
+    optAll:'All', optAllTeam:'All Team',
+    sidebarTitle:'Index',
+    idx1sub:'4 topics', idx2sub:'3 topics', idx3sub:'5 topics', idx4sub:'3 topics + subtopics', idx5sub:'5 topics', idx6sub:'3 topics',
+    statTotal:'Total materials', statActive:'Active links', statPending:'Pending links', statWip:'WIP / In progress',
+    ticketBtn:'🎫 Submit Ticket',
+    ticketTitle:'🎫 Submit a Request Ticket', ticketSub:'New material, update or bug report',
+    ticketTypeLabel:'Request type', ticketSectionLabel:'Related section',
+    ticketMaterialLabel:'Material or topic name', ticketDescLabel:'Description of the issue or request',
+    ticketPrioLabel:'Priority', ticketNameLabel:'Your name or team',
+    ticketMaterialPh:'e.g. KPI Dashboard Module, Onboarding Process…',
+    ticketDescPh:'Describe what you need, what is outdated or what is not working…',
+    ticketNamePh:'e.g. Andrea Arciniega · VM Team',
+    ticketCancel:'Cancel', ticketSubmit:'Submit Ticket →',
+    footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Last updated: 06-08-26',
+    tsToday:'Today', tsDays:'{n}d ago', tsWeeks:'{n}wk ago', tsMonths:'{n}mo ago', tsYears:'{n}yr ago',
+    ageFresh:'Recent (<30 days)', ageOk:'Normal (1–3 months)', ageOld:'Review (3–6 months)', ageStale:'Outdated (>6 months)'
+  },
+  zh: {
+    nav1:'团队', nav2:'系统', nav3:'招募', nav4:'培训', nav5:'运营', nav6:'离场',
+    heroEyebrow:'供应商成长与培训战略',
+    heroSub:'Alianza团队培训材料的集中仓库。',
+    chip1:'📋 团队与职责', chip2:'🖥️ 系统与权限', chip3:'🤝 供应商招募', chip4:'🎓 培训赋能', chip5:'⚙️ 运营管理', chip6:'🚪 离场流程',
+    filterForLabel:'受众：', filterFromLabel:'负责人：', filterAgeLabel:'更新时间：', filterReset:'✕ 重置',
+    optAll:'全部', optAllTeam:'全体团队',
+    sidebarTitle:'目录',
+    idx1sub:'4个主题', idx2sub:'3个主题', idx3sub:'5个主题', idx4sub:'3个主题+子主题', idx5sub:'5个主题', idx6sub:'3个主题',
+    statTotal:'材料总数', statActive:'有效链接', statPending:'待补充链接', statWip:'进行中',
+    ticketBtn:'🎫 提交工单',
+    ticketTitle:'🎫 提交需求工单', ticketSub:'新增材料、更新申请或问题反馈',
+    ticketTypeLabel:'申请类型', ticketSectionLabel:'相关板块',
+    ticketMaterialLabel:'材料或主题名称', ticketDescLabel:'问题或需求描述',
+    ticketPrioLabel:'优先级', ticketNameLabel:'你的姓名或团队',
+    ticketMaterialPh:'例：KPI看板模块、入驻流程…',
+    ticketDescPh:'请描述你需要什么、哪里需要更新或哪里无法正常使用…',
+    ticketNamePh:'例：Andrea Arciniega · VM团队',
+    ticketCancel:'取消', ticketSubmit:'提交工单 →',
+    footer:'DiDi Alianza Learning School · 供应商成长与培训战略 · 最后更新：06-08-26',
+    tsToday:'今天', tsDays:'{n}天前', tsWeeks:'{n}周前', tsMonths:'{n}个月前', tsYears:'{n}年前',
+    ageFresh:'最新（<30天）', ageOk:'正常（1–3个月）', ageOld:'需审查（3–6个月）', ageStale:'已过时（>6个月）'
+  }
+};
+
+var currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === {es:'ES',en:'EN',zh:'中文'}[lang]));
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  // Update filter age options
+  const ageSelect = document.getElementById('filterAge');
+  if (ageSelect) {
+    ageSelect.options[1].text = t.ageFresh;
+    ageSelect.options[2].text = t.ageOk;
+    ageSelect.options[3].text = t.ageOld;
+    ageSelect.options[4].text = t.ageStale;
+  }
+  // Re-render timestamps
+  document.querySelectorAll('.topic').forEach(topic => {
+    const dateStr = topic.dataset.date;
+    if (!dateStr) return;
+    const ts = topic.querySelector('.timestamp');
+    if (!ts) return;
+    const cls = getAgeClass(dateStr);
+    const lbl = getAgeLabelI18n(dateStr, t);
+    ts.className = 'timestamp ts-' + cls;
+    ts.innerHTML = `<span class="ts-dot"></span>${lbl} (${dateStr.slice(5).replace('-','/')})`;
+  });
+}
+
+function getAgeLabelI18n(dateStr, t) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 1)   return t.tsToday;
+  if (days < 30)  return t.tsDays.replace('{n}', days);
+  if (days < 90)  return t.tsWeeks.replace('{n}', Math.floor(days/7));
+  if (days < 365) return t.tsMonths.replace('{n}', Math.floor(days/30));
+  return t.tsYears.replace('{n}', Math.floor(days/365));
 }
 </script>
 </body>
