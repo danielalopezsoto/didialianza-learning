@@ -517,16 +517,21 @@ function submitQuiz() {
 
   // Score
   let correct = 0;
+  const letters = ['a','b','c','d'];
   for (const [qId, ans] of Object.entries(ANSWERS)) {
     const opts = document.querySelectorAll(`#${qId} .option`);
+    const userSel = selected[qId];
+    let gotIt = false;
     opts.forEach((opt, i) => {
-      const letters = ['a','b','c','d'];
-      const isCorrect = letters[i] === ans;
-      const isSelected = selected[qId] === letters[i];
-      if (isSelected && isCorrect)  { opt.classList.remove('selected'); opt.classList.add('correct'); correct++; }
-      else if (isSelected && !isCorrect) { opt.classList.remove('selected'); opt.classList.add('wrong'); }
+      const letter = letters[i];
+      const isCorrect = letter === ans;
+      const isSelected = userSel === letter;
+      opt.classList.remove('selected');
+      if (isSelected && isCorrect)  { opt.classList.add('correct'); gotIt = true; }
+      else if (isSelected && !isCorrect) { opt.classList.add('wrong'); }
       else if (!isSelected && isCorrect) { opt.classList.add('correct'); }
     });
+    if (gotIt) correct++;
   }
 
   // Disable further interaction
