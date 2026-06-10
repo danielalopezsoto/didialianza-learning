@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación 3R — DiDi Alianza</title>
+<style>
+  :root {
+    --orange: #FF6B00; --orange-light: #FFF3EB; --orange-mid: #FFD6B3;
+    --dark: #111; --white: #fff;
+    --gray-1: #F7F7F5; --gray-2: #E8E8E5; --gray-3: #AAAAAA; --gray-4: #666;
+    --green: #0F6E56; --green-light: #E1F5EE;
+    --red: #C0392B; --red-light: #FDECEA;
+    --blue: #185FA5; --blue-light: #E6F1FB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F2F2EF; color: var(--dark); min-height: 100vh; }
+
+  /* TOPBAR */
+  .topbar { background: var(--dark); height: 52px; display: flex; align-items: center; padding: 0 2rem; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .topbar .badge { background: var(--orange); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 5px; }
+  .topbar .name { color: #ccc; font-size: 13px; }
+  .topbar .sep { color: #444; }
+  .topbar .module { color: #fff; font-size: 13px; font-weight: 500; }
+
+  /* PROGRESS BAR */
+  .progress-wrap { background: var(--dark); padding: 0 2rem 12px; }
+  .progress-steps { max-width: 700px; margin: 0 auto; display: flex; align-items: center; gap: 0; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 11px; flex: 1; }
+  .step-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; border: 2px solid #444; color: #666; background: transparent; transition: all 0.3s; }
+  .step-dot.active { border-color: var(--orange); color: var(--orange); }
+  .step-dot.done { border-color: var(--green); background: var(--green); color: #fff; }
+  .step-label { color: #666; font-size: 10px; transition: color 0.3s; white-space: nowrap; }
+  .step-label.active { color: var(--orange); font-weight: 600; }
+  .step-label.done { color: var(--green); }
+  .step-line { flex: 1; height: 1px; background: #333; margin: 0 8px; }
+  .step-line.done { background: var(--green); }
+
+  /* MAIN */
+  .main { max-width: 700px; margin: 0 auto; padding: 2rem 1rem; }
+
+  /* SECTION CARDS */
+  .card { background: var(--white); border-radius: 14px; border: 0.5px solid var(--gray-2); overflow: hidden; margin-bottom: 1.5rem; }
+  .card-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--gray-2); display: flex; align-items: center; gap: 10px; }
+  .card-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--dark); }
+  .card-sub { font-size: 11px; color: var(--gray-3); margin-top: 1px; }
+  .card-body { padding: 1.25rem; }
+
+  /* VIDEO */
+  .video-wrap { position: relative; padding-bottom: 56.25%; border-radius: 10px; overflow: hidden; background: #000; }
+  .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+  .video-note { margin-top: 10px; font-size: 12px; color: var(--gray-3); display: flex; align-items: center; gap: 6px; }
+  .video-note::before { content: 'ℹ️'; }
+
+  /* VIDEO LOCK */
+  .video-lock { background: rgba(0,0,0,0.85); position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border-radius: 10px; z-index: 2; }
+  .video-lock.hidden { display: none; }
+  .video-lock p { color: #fff; font-size: 13px; }
+  .video-timer { font-size: 28px; font-weight: 700; color: var(--orange); }
+
+  /* QUIZ */
+  .quiz-section { display: none; }
+  .quiz-section.visible { display: block; }
+  .quiz-intro { font-size: 13px; color: var(--gray-4); margin-bottom: 1.25rem; line-height: 1.6; padding: 10px 14px; background: var(--blue-light); border-radius: 8px; border-left: 3px solid var(--blue); }
+  .user-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+  .field label { font-size: 11px; font-weight: 600; color: var(--gray-4); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+  .field input { width: 100%; padding: 8px 10px; font-size: 13px; border: 0.5px solid var(--gray-2); border-radius: 7px; background: var(--gray-1); color: var(--dark); font-family: inherit; outline: none; }
+  .field input:focus { border-color: var(--orange); background: var(--white); }
+
+  .question { margin-bottom: 1.5rem; }
+  .q-num { font-size: 10px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .q-text { font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 10px; line-height: 1.5; }
+  .options { display: flex; flex-direction: column; gap: 7px; }
+  .option { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 0.5px solid var(--gray-2); border-radius: 8px; cursor: pointer; transition: all 0.15s; background: var(--gray-1); }
+  .option:hover { border-color: var(--orange); background: var(--orange-light); }
+  .option.selected { border-color: var(--orange); background: var(--orange-light); }
+  .option.correct { border-color: var(--green); background: var(--green-light); }
+  .option.wrong { border-color: var(--red); background: var(--red-light); }
+  .option input[type=radio] { display: none; }
+  .opt-circle { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--gray-3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .option.selected .opt-circle { border-color: var(--orange); background: var(--orange); }
+  .option.correct .opt-circle { border-color: var(--green); background: var(--green); }
+  .option.wrong .opt-circle { border-color: var(--red); background: var(--red); }
+  .opt-circle::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff; display: none; }
+  .option.selected .opt-circle::after, .option.correct .opt-circle::after, .option.wrong .opt-circle::after { display: block; }
+  .opt-text { font-size: 12px; color: var(--dark); flex: 1; }
+  .opt-feedback { font-size: 10px; margin-top: 2px; display: none; }
+  .option.correct .opt-feedback { display: block; color: var(--green); }
+  .option.wrong .opt-feedback { display: block; color: var(--red); }
+
+  .quiz-divider { height: 0.5px; background: var(--gray-2); margin: 1.25rem 0; }
+
+  /* BUTTONS */
+  .btn-primary { padding: 10px 24px; background: var(--orange); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary:hover { background: #e05e00; }
+  .btn-primary:disabled { background: var(--gray-3); cursor: default; }
+  .btn-secondary { padding: 10px 20px; background: transparent; border: 0.5px solid var(--gray-2); border-radius: 8px; font-size: 13px; color: var(--gray-4); cursor: pointer; }
+  .btn-secondary:hover { background: var(--gray-1); }
+
+  /* RESULT */
+  .result-section { display: none; }
+  .result-section.visible { display: block; }
+  .result-card { border-radius: 14px; padding: 2rem; text-align: center; }
+  .result-card.pass { background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 100%); }
+  .result-card.fail { background: linear-gradient(135deg, #8B1A1A 0%, #C0392B 100%); }
+  .result-icon { font-size: 52px; margin-bottom: 0.75rem; }
+  .result-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+  .result-sub { font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 1.25rem; line-height: 1.5; }
+  .result-score { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); border-radius: 30px; padding: 8px 20px; margin-bottom: 1.25rem; }
+  .result-score-num { font-size: 28px; font-weight: 700; color: #fff; }
+  .result-score-label { font-size: 12px; color: rgba(255,255,255,0.7); text-align: left; line-height: 1.3; }
+  .result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { padding: 10px 20px; background: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s; }
+  .btn-white:hover { opacity: 0.9; }
+  .btn-ghost { padding: 10px 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; font-size: 13px; color: #fff; cursor: pointer; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.25); }
+
+  /* CERTIFICATE */
+  .cert-section { display: none; }
+  .cert-section.visible { display: block; }
+  .cert { border: 3px solid var(--orange); border-radius: 16px; padding: 2.5rem 2rem; text-align: center; position: relative; background: var(--white); overflow: hidden; }
+  .cert::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--orange-mid); border-radius: 10px; pointer-events: none; }
+  .cert-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
+  .cert-logo .badge { background: var(--orange); color: #fff; font-size: 14px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+  .cert-logo .name { font-size: 15px; font-weight: 600; color: var(--dark); }
+  .cert-eyebrow { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-3); margin-bottom: 0.5rem; }
+  .cert-title { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; line-height: 1.2; }
+  .cert-title span { color: var(--orange); }
+  .cert-divider { width: 60px; height: 2px; background: var(--orange); margin: 1rem auto; border-radius: 2px; }
+  .cert-body { font-size: 13px; color: var(--gray-4); margin-bottom: 0.5rem; }
+  .cert-name { font-size: 28px; font-weight: 700; color: var(--dark); margin: 0.5rem 0; font-style: italic; border-bottom: 1.5px solid var(--gray-2); padding-bottom: 0.5rem; }
+  .cert-module { font-size: 14px; font-weight: 600; color: var(--dark); margin: 0.75rem 0 0.25rem; }
+  .cert-score-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--green-light); border: 0.5px solid var(--green); color: var(--green); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin: 0.5rem 0; }
+  .cert-date { font-size: 11px; color: var(--gray-3); margin-top: 0.75rem; }
+  .cert-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid var(--gray-2); }
+  .cert-sig { text-align: center; }
+  .cert-sig-line { width: 100px; height: 1px; background: var(--dark); margin: 0 auto 4px; }
+  .cert-sig-name { font-size: 10px; color: var(--gray-4); }
+  .cert-id { font-size: 9px; color: var(--gray-3); font-family: monospace; }
+  .cert-actions { display: flex; gap: 8px; justify-content: center; margin-top: 1.25rem; }
+
+  @media (max-width: 600px) {
+    .user-fields { grid-template-columns: 1fr; }
+    .cert-title { font-size: 20px; }
+    .cert-name { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="badge">DiDi</span>
+  <span class="name">Alianza Learning School</span>
+  <span class="sep">›</span>
+  <span class="module">Evaluación 3R — Vendors</span>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="step">
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-label active" id="lbl1">Ver video</div>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step">
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-label" id="lbl2">Evaluación</div>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step">
+      <div class="step-dot" id="dot3">3</div>
+      <div class="step-label" id="lbl3">Resultado</div>
+    </div>
+    <div class="step-line" id="line3"></div>
+    <div class="step">
+      <div class="step-dot" id="dot4">4</div>
+      <div class="step-label" id="lbl4">Certificado</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1: VIDEO -->
+  <div id="stepVideo">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FDECEA">🎬</div>
+        <div>
+          <div class="card-title">Módulo: Las 3R para Vendors</div>
+          <div class="card-sub">Mira el video completo antes de continuar a la evaluación</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="video-wrap" id="videoWrap">
+          <iframe id="ytPlayer"
+            src="https://www.youtube.com/embed/mVgWhm48-w0?enablejsapi=1&rel=0&modestbranding=1"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <!-- Fallback si el iframe no carga -->
+          <div id="videoFallback" style="display:none;position:absolute;inset:0;background:#111;border-radius:10px;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer" onclick="window.open('https://www.youtube.com/watch?v=mVgWhm48-w0','_blank')">
+            <img src="https://img.youtube.com/vi/mVgWhm48-w0/maxresdefault.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px;opacity:0.7">
+            <div style="position:relative;z-index:1;width:64px;height:64px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center">
+              <div style="width:0;height:0;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:22px solid white;margin-left:4px"></div>
+            </div>
+            <p style="position:relative;z-index:1;color:#fff;font-size:13px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.8)">Ver en YouTube</p>
+          </div>
+        </div>
+        <p class="video-note">Debes ver el video completo antes de continuar. Si no carga aquí, ábrelo en YouTube y vuelve.</p>
+        <div style="margin-top:1.25rem;display:flex;justify-content:flex-end">
+          <button class="btn-primary" id="btnGoQuiz" onclick="goToQuiz()" disabled>
+            Continuar a la evaluación →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: QUIZ -->
+  <div id="stepQuiz" class="quiz-section">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background:var(--orange-light)">📝</div>
+        <div>
+          <div class="card-title">Evaluación 3R — Vendors</div>
+          <div class="card-sub">5 preguntas · Mínimo 4 correctas para aprobar (80%)</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="quiz-intro">
+          Responde las siguientes preguntas basándote en el video que acabas de ver. Necesitas mínimo <strong>4 de 5 respuestas correctas</strong> para obtener tu certificado.
+        </div>
+
+        <!-- User fields -->
+        <div class="user-fields">
+          <div class="field">
+            <label>Vendor ID *</label>
+            <input type="text" id="vendorId" placeholder="Tu Vendor ID">
+          </div>
+          <div class="field">
+            <label>Nombre y Apellido *</label>
+            <input type="text" id="userName" placeholder="Tu nombre completo">
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <!-- Q1 -->
+        <div class="question" id="q1">
+          <div class="q-num">Pregunta 1 de 5</div>
+          <div class="q-text">¿Cómo afectan las 3R a los Vendors?</div>
+          <div class="options">
+            <label class="option" onclick="selectOption(this, 'q1', 'a')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Me dan de baja a mis Repartidores</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q1', 'b')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Mala puntuación de calidad de servicio en plataforma</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q1', 'c')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Mayores deducciones en las facturas</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q1', 'd')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Todas las anteriores</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <!-- Q2 -->
+        <div class="question" id="q2">
+          <div class="q-num">Pregunta 2 de 5</div>
+          <div class="q-text">¿Cuánto se deduce en la factura para cada repartidor si tiene más de 15 órdenes con 3R?</div>
+          <div class="options">
+            <label class="option" onclick="selectOption(this, 'q2', 'a')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">$35 MXN</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q2', 'b')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">$40 MXN</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q2', 'c')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">$30 MXN</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <!-- Q3 -->
+        <div class="question" id="q3">
+          <div class="q-num">Pregunta 3 de 5</div>
+          <div class="q-text">En el caso de pedidos 3R derivados de accidentes, ¿cuántos pedidos tiene que acumular por semana un repartidor para que su cuenta se elimine?</div>
+          <div class="options">
+            <label class="option" onclick="selectOption(this, 'q3', 'a')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">15</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q3', 'b')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">20</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q3', 'c')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">10</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <!-- Q4 -->
+        <div class="question" id="q4">
+          <div class="q-num">Pregunta 4 de 5</div>
+          <div class="q-text">Durante el mundial, ¿las 3R de tipo Rescheduled por BETA se penalizarán?</div>
+          <div class="options">
+            <label class="option" onclick="selectOption(this, 'q4', 'a')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">No</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q4', 'b')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Sí</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q4', 'c')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Sí, pero solo a retrasos de llegada al restaurante y si se entregó la orden</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <!-- Q5 -->
+        <div class="question" id="q5">
+          <div class="q-num">Pregunta 5 de 5</div>
+          <div class="q-text">¿Cómo puedo ver los datos 3R de los repartidores?</div>
+          <div class="options">
+            <label class="option" onclick="selectOption(this, 'q5', 'a')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">En las facturas</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q5', 'b')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">En EastWind</div></div>
+            </label>
+            <label class="option" onclick="selectOption(this, 'q5', 'c')">
+              <div class="opt-circle"></div>
+              <div><div class="opt-text">Ambas</div></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-divider"></div>
+
+        <div style="display:flex;justify-content:flex-end">
+          <button class="btn-primary" id="btnSubmit" onclick="submitQuiz()" disabled>
+            Enviar evaluación →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: RESULT -->
+  <div id="stepResult" class="result-section">
+    <div class="card">
+      <div class="card-body" id="resultBody"></div>
+    </div>
+  </div>
+
+  <!-- STEP 4: CERTIFICATE -->
+  <div id="stepCert" class="cert-section">
+    <div class="cert" id="certificate">
+      <div class="cert-logo">
+        <span class="badge">DiDi</span>
+        <span class="name">Alianza Learning School</span>
+      </div>
+      <div class="cert-eyebrow">Certifica que</div>
+      <div class="cert-name" id="certName">—</div>
+      <div class="cert-body">ha completado satisfactoriamente el módulo de capacitación</div>
+      <div class="cert-module">Las 3R para Vendors — DiDi Alianza</div>
+      <div class="cert-divider"></div>
+      <div class="cert-score-badge" id="certScore">✅ — / 5 correctas</div>
+      <div class="cert-date" id="certDate"></div>
+      <div class="cert-footer">
+        <div class="cert-sig">
+          <div class="cert-sig-line"></div>
+          <div class="cert-sig-name">DiDi Alianza Learning School</div>
+        </div>
+        <div class="cert-id" id="certId"></div>
+        <div class="cert-sig">
+          <div class="cert-sig-line"></div>
+          <div class="cert-sig-name">Vendor Growth Team</div>
+        </div>
+      </div>
+    </div>
+    <div class="cert-actions">
+      <button class="btn-primary" onclick="printCert()">🖨️ Imprimir / Guardar PDF</button>
+      <button class="btn-secondary" onclick="window.location.reload()">↩ Volver al inicio</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── VIDEO FALLBACK DETECTION ─────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const iframe = document.getElementById('ytPlayer');
+  // Check after 3s if iframe loaded correctly
+  setTimeout(() => {
+    try {
+      // If iframe contentWindow is null or blocked, show fallback
+      if (!iframe.contentWindow || iframe.clientHeight < 10) {
+        showVideoFallback();
+      }
+    } catch(e) { showVideoFallback(); }
+  }, 3000);
+});
+function showVideoFallback() {
+  document.getElementById('videoFallback').style.display = 'flex';
+  // If fallback shown, allow continuing after 5s (they'll watch on YT)
+  setTimeout(() => {
+    videoWatched = true;
+    document.getElementById('btnGoQuiz').disabled = false;
+  }, 5000);
+}
+
+// ── ANSWERS (correct options) ─────────────────────────────────────────────────
+const ANSWERS = { q1:'d', q2:'b', q3:'c', q4:'a', q5:'c' };
+const PASS_SCORE = 4;
+let selected = {};
+let videoWatched = false;
+
+// ── VIDEO TIMER (unlock after 10s for demo; in prod set higher) ───────────────
+let videoTimer = null;
+let videoSeconds = 0;
+const VIDEO_REQUIRED = 30; // seconds before enabling quiz button
+
+function startVideoTimer() {
+  if (videoTimer) return;
+  videoTimer = setInterval(() => {
+    videoSeconds++;
+    if (videoSeconds >= VIDEO_REQUIRED) {
+      videoWatched = true;
+      clearInterval(videoTimer);
+      document.getElementById('btnGoQuiz').disabled = false;
+      document.getElementById('btnGoQuiz').innerHTML = 'Continuar a la evaluación →';
+    }
+  }, 1000);
+}
+
+// Start timer when iframe receives focus (user clicked play)
+window.addEventListener('blur', () => {
+  if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+    startVideoTimer();
+  }
+});
+// Also start after 2s as fallback
+setTimeout(() => startVideoTimer(), 2000);
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function goToQuiz() {
+  document.getElementById('stepVideo').style.display = 'none';
+  document.getElementById('stepQuiz').classList.add('visible');
+  setStep(2);
+  window.scrollTo({top: 0, behavior:'smooth'});
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('dot'+i);
+    const lbl = document.getElementById('lbl'+i);
+    dot.className = 'step-dot' + (i < n ? ' done' : i === n ? ' active' : '');
+    dot.textContent = i < n ? '✓' : i;
+    lbl.className = 'step-label' + (i < n ? ' done' : i === n ? ' active' : '');
+    if (i < 4) {
+      const line = document.getElementById('line'+i);
+      line.className = 'step-line' + (i < n ? ' done' : '');
+    }
+  }
+}
+
+// ── QUIZ LOGIC ────────────────────────────────────────────────────────────────
+function selectOption(el, qId, val) {
+  // deselect all in this question
+  el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected[qId] = val;
+  // enable submit if all answered and fields filled
+  checkSubmitReady();
+}
+
+function checkSubmitReady() {
+  const allAnswered = Object.keys(selected).length === 5;
+  const vid = document.getElementById('vendorId').value.trim();
+  const name = document.getElementById('userName').value.trim();
+  document.getElementById('btnSubmit').disabled = !(allAnswered && vid && name);
+}
+
+document.getElementById('vendorId').addEventListener('input', checkSubmitReady);
+document.getElementById('userName').addEventListener('input', checkSubmitReady);
+
+function submitQuiz() {
+  const vid   = document.getElementById('vendorId').value.trim();
+  const uname = document.getElementById('userName').value.trim();
+  if (!vid || !uname) { alert('Por favor completa tu Vendor ID y nombre.'); return; }
+
+  // Score
+  let correct = 0;
+  for (const [qId, ans] of Object.entries(ANSWERS)) {
+    const opts = document.querySelectorAll(`#${qId} .option`);
+    opts.forEach((opt, i) => {
+      const letters = ['a','b','c','d'];
+      const isCorrect = letters[i] === ans;
+      const isSelected = selected[qId] === letters[i];
+      if (isSelected && isCorrect)  { opt.classList.remove('selected'); opt.classList.add('correct'); correct++; }
+      else if (isSelected && !isCorrect) { opt.classList.remove('selected'); opt.classList.add('wrong'); }
+      else if (!isSelected && isCorrect) { opt.classList.add('correct'); }
+    });
+  }
+
+  // Disable further interaction
+  document.querySelectorAll('.option').forEach(o => o.style.pointerEvents = 'none');
+  document.getElementById('btnSubmit').style.display = 'none';
+
+  setTimeout(() => showResult(correct, uname, vid), 800);
+}
+
+function showResult(correct, uname, vid) {
+  const pass = correct >= PASS_SCORE;
+  setStep(3);
+  document.getElementById('stepQuiz').classList.remove('visible');
+  document.getElementById('stepResult').classList.add('visible');
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  const pct = Math.round((correct/5)*100);
+  const html = pass ? `
+    <div class="result-card pass">
+      <div class="result-icon">🏆</div>
+      <div class="result-title">¡Felicidades, aprobaste!</div>
+      <div class="result-sub">Demostraste que conoces cómo funcionan las 3R y cómo impactan a tu operación como Vendor.</div>
+      <div class="result-score">
+        <div class="result-score-num">${correct}/5</div>
+        <div class="result-score-label">respuestas<br>correctas (${pct}%)</div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-white" onclick="showCert('${uname}', ${correct})" style="color:var(--green)">Ver mi certificado 🎓</button>
+      </div>
+    </div>` : `
+    <div class="result-card fail">
+      <div class="result-icon">📚</div>
+      <div class="result-title">No aprobaste esta vez</div>
+      <div class="result-sub">Obtuviste ${correct} de 5 respuestas correctas (${pct}%). Necesitas mínimo 4/5 para aprobar. Te recomendamos revisar el video nuevamente y volver a intentarlo.</div>
+      <div class="result-score">
+        <div class="result-score-num">${correct}/5</div>
+        <div class="result-score-label">respuestas<br>correctas (${pct}%)</div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-white" onclick="window.location.reload()" style="color:var(--red)">↩ Intentar de nuevo</button>
+        <button class="btn-ghost" onclick="document.getElementById('stepQuiz').scrollIntoView({behavior:'smooth'})">Ver respuestas</button>
+      </div>
+    </div>`;
+
+  document.getElementById('resultBody').innerHTML = html;
+}
+
+function showCert(uname, correct) {
+  setStep(4);
+  document.getElementById('stepResult').classList.remove('visible');
+  document.getElementById('stepCert').classList.add('visible');
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('es-MX', {day:'numeric', month:'long', year:'numeric'});
+  const certId = 'CERT-3R-' + Date.now().toString(36).toUpperCase();
+
+  document.getElementById('certName').textContent = uname;
+  document.getElementById('certScore').textContent = `✅ ${correct} / 5 correctas (${Math.round(correct/5*100)}%)`;
+  document.getElementById('certDate').textContent = `Emitido el ${dateStr}`;
+  document.getElementById('certId').textContent = certId;
+}
+
+function printCert() {
+  const cert = document.getElementById('certificate');
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Certificado 3R</title>
+  <style>
+    body{margin:0;padding:2rem;font-family:'Segoe UI',system-ui,sans-serif;background:#fff}
+    @media print{body{padding:0}}
+    ${document.querySelector('style').textContent}
+  </style></head><body>${cert.outerHTML}
+  <script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
+</script>
+</body>
+</html>
