@@ -253,19 +253,19 @@
           <div class="q-num">Pregunta 1 de 5</div>
           <div class="q-text">¿Cómo afectan las 3R a los Vendors?</div>
           <div class="options">
-            <label class="option" onclick="selectOption(this, 'q1', 'a')">
+            <label class="option" data-val="a" onclick="selectOption(this, 'q1')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Me dan de baja a mis Repartidores</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q1', 'b')">
+            <label class="option" data-val="b" onclick="selectOption(this, 'q1')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Mala puntuación de calidad de servicio en plataforma</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q1', 'c')">
+            <label class="option" data-val="c" onclick="selectOption(this, 'q1')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Mayores deducciones en las facturas</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q1', 'd')">
+            <label class="option" data-val="d" onclick="selectOption(this, 'q1')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Todas las anteriores</div></div>
             </label>
@@ -279,15 +279,15 @@
           <div class="q-num">Pregunta 2 de 5</div>
           <div class="q-text">¿Cuánto se deduce en la factura para cada repartidor si tiene más de 15 órdenes con 3R?</div>
           <div class="options">
-            <label class="option" onclick="selectOption(this, 'q2', 'a')">
+            <label class="option" data-val="a" onclick="selectOption(this, 'q2')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">$35 MXN</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q2', 'b')">
+            <label class="option" data-val="b" onclick="selectOption(this, 'q2')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">$40 MXN</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q2', 'c')">
+            <label class="option" data-val="c" onclick="selectOption(this, 'q2')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">$30 MXN</div></div>
             </label>
@@ -301,15 +301,15 @@
           <div class="q-num">Pregunta 3 de 5</div>
           <div class="q-text">En el caso de pedidos 3R derivados de accidentes, ¿cuántos pedidos tiene que acumular por semana un repartidor para que su cuenta se elimine?</div>
           <div class="options">
-            <label class="option" onclick="selectOption(this, 'q3', 'a')">
+            <label class="option" data-val="a" onclick="selectOption(this, 'q3')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">15</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q3', 'b')">
+            <label class="option" data-val="b" onclick="selectOption(this, 'q3')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">20</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q3', 'c')">
+            <label class="option" data-val="c" onclick="selectOption(this, 'q3')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">10</div></div>
             </label>
@@ -323,15 +323,15 @@
           <div class="q-num">Pregunta 4 de 5</div>
           <div class="q-text">Durante el mundial, ¿las 3R de tipo Rescheduled por BETA se penalizarán?</div>
           <div class="options">
-            <label class="option" onclick="selectOption(this, 'q4', 'a')">
+            <label class="option" data-val="a" onclick="selectOption(this, 'q4')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">No</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q4', 'b')">
+            <label class="option" data-val="b" onclick="selectOption(this, 'q4')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Sí</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q4', 'c')">
+            <label class="option" data-val="c" onclick="selectOption(this, 'q4')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Sí, pero solo a retrasos de llegada al restaurante y si se entregó la orden</div></div>
             </label>
@@ -345,15 +345,15 @@
           <div class="q-num">Pregunta 5 de 5</div>
           <div class="q-text">¿Cómo puedo ver los datos 3R de los repartidores?</div>
           <div class="options">
-            <label class="option" onclick="selectOption(this, 'q5', 'a')">
+            <label class="option" data-val="a" onclick="selectOption(this, 'q5')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">En las facturas</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q5', 'b')">
+            <label class="option" data-val="b" onclick="selectOption(this, 'q5')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">En EastWind</div></div>
             </label>
-            <label class="option" onclick="selectOption(this, 'q5', 'c')">
+            <label class="option" data-val="c" onclick="selectOption(this, 'q5')">
               <div class="opt-circle"></div>
               <div><div class="opt-text">Ambas</div></div>
             </label>
@@ -491,12 +491,11 @@ function setStep(n) {
 }
 
 // ── QUIZ LOGIC ────────────────────────────────────────────────────────────────
-function selectOption(el, qId, val) {
-  // deselect all in this question
+function selectOption(el, qId) {
+  const val = el.dataset.val;
   el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   selected[qId] = val;
-  // enable submit if all answered and fields filled
   checkSubmitReady();
 }
 
@@ -515,15 +514,14 @@ function submitQuiz() {
   const uname = document.getElementById('userName').value.trim();
   if (!vid || !uname) { alert('Por favor completa tu Vendor ID y nombre.'); return; }
 
-  // Score
+  // Score using data-val attributes
   let correct = 0;
-  const letters = ['a','b','c','d'];
   for (const [qId, ans] of Object.entries(ANSWERS)) {
     const opts = document.querySelectorAll(`#${qId} .option`);
     const userSel = selected[qId];
     let gotIt = false;
-    opts.forEach((opt, i) => {
-      const letter = letters[i];
+    opts.forEach(opt => {
+      const letter = opt.dataset.val;
       const isCorrect = letter === ans;
       const isSelected = userSel === letter;
       opt.classList.remove('selected');
@@ -572,7 +570,7 @@ function showResult(correct, uname, vid) {
       </div>
       <div class="result-actions">
         <button class="btn-white" onclick="window.location.reload()" style="color:var(--red)">↩ Intentar de nuevo</button>
-        <button class="btn-ghost" onclick="document.getElementById('stepQuiz').scrollIntoView({behavior:'smooth'})">Ver respuestas</button>
+        
       </div>
     </div>`;
 
