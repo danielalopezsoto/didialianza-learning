@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiDi Alianza Learning School</title>
+<style>
+  :root {
+    --orange: #FF6B00; --orange-light: #FFF3EB; --orange-mid: #FFD6B3;
+    --dark: #1A1A1A; --gray-1: #F7F7F7; --gray-2: #EBEBEB; --gray-3: #AAAAAA; --gray-4: #666666;
+    --white: #FFFFFF; --green: #0F6E56; --green-light: #E1F5EE;
+    --blue: #185FA5; --blue-light: #E6F1FB; --purple: #534AB7; --purple-light: #EEEDFE;
+    --red: #A32D2D; --red-light: #FCEBEB; --amber: #854F0B; --amber-light: #FAEEDA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F4F4F2; color: var(--dark); }
+
+  /* TOPBAR */
+  .lang-switcher { display:flex; gap:3px; background:rgba(255,255,255,0.08); padding:3px; border-radius:7px; }
+  .lang-btn { padding:4px 10px; border:none; background:transparent; border-radius:5px; font-size:11px; font-weight:600; cursor:pointer; color:#aaa; transition:all 0.15s; letter-spacing:0.02em; }
+  .lang-btn.active { background:var(--orange); color:#fff; }
+  .lang-btn:hover:not(.active) { background:rgba(255,255,255,0.1); color:#fff; }
+  .topbar { background: var(--dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+  .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .topbar-logo .badge { background: var(--orange); color: #fff; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+  .topbar-logo .name { color: #fff; font-size: 14px; font-weight: 500; }
+  .topbar-nav { display: flex; gap: 4px; }
+  .topbar-nav a { color: #ccc; text-decoration: none; font-size: 12px; padding: 5px 10px; border-radius: 5px; transition: background 0.15s; }
+  .topbar-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  /* HERO */
+  .hero { background: var(--dark); padding: 2.5rem 2rem 2rem; border-bottom: 3px solid var(--orange); }
+  .hero-inner { max-width: 960px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; }
+  .hero h1 { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; }
+  .hero h1 span { color: var(--orange); }
+  .hero-sub { font-size: 14px; color: #aaa; max-width: 540px; line-height: 1.6; margin-bottom: 1.5rem; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hero-chip { background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.15); color: #ccc; font-size: 12px; padding: 5px 12px; border-radius: 20px; text-decoration: none; transition: background 0.15s; }
+  .hero-chip:hover { background: rgba(255,107,0,0.2); color: var(--orange); border-color: var(--orange); }
+
+  /* FILTER BAR */
+  .filter-bar { background: var(--white); border-bottom: 0.5px solid var(--gray-2); padding: 0.75rem 2rem; position: sticky; top: 56px; z-index: 90; }
+  .filter-bar-inner { max-width: 960px; margin: 0 auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .filter-bar label { font-size: 11px; color: var(--gray-4); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+  .filter-bar select { font-size: 12px; padding: 5px 10px; border: 0.5px solid var(--gray-2); border-radius: 6px; background: var(--gray-1); color: var(--dark); cursor: pointer; min-width: 160px; }
+  .filter-bar select:focus { outline: none; border-color: var(--orange); }
+  .filter-divider { width: 1px; height: 20px; background: var(--gray-2); }
+  .filter-reset { font-size: 11px; color: var(--orange); cursor: pointer; border: none; background: none; padding: 4px 8px; border-radius: 5px; }
+  .filter-reset:hover { background: var(--orange-light); }
+  .filter-count { font-size: 11px; color: var(--gray-3); margin-left: auto; }
+
+  /* LAYOUT */
+  .layout { max-width: 960px; margin: 0 auto; padding: 1.5rem 2rem; display: grid; grid-template-columns: 220px 1fr; gap: 1.5rem; }
+
+  /* INDEX SIDEBAR */
+  .sidebar { position: sticky; top: 110px; align-self: start; }
+  .sidebar-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-4); margin-bottom: 0.75rem; }
+  .index-card { background: var(--white); border-radius: 10px; border: 0.5px solid var(--gray-2); overflow: hidden; }
+  .index-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-bottom: 0.5px solid var(--gray-2); text-decoration: none; transition: background 0.12s; cursor: pointer; }
+  .index-item:last-child { border-bottom: none; }
+  .index-item:hover { background: var(--gray-1); }
+  .index-num { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .index-text { font-size: 11px; color: var(--dark); line-height: 1.3; }
+  .index-sub { font-size: 10px; color: var(--gray-3); margin-top: 1px; }
+  .stats-mini { background: var(--white); border-radius: 10px; border: 0.5px solid var(--gray-2); padding: 10px 12px; margin-top: 10px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 3px 0; font-size: 11px; }
+  .stat-row span:first-child { color: var(--gray-4); }
+  .stat-row span:last-child { font-weight: 600; color: var(--dark); }
+
+  /* MAIN CONTENT */
+  .main-content { min-width: 0; }
+  .part { margin-bottom: 1.5rem; background: var(--white); border-radius: 12px; border: 0.5px solid var(--gray-2); overflow: hidden; }
+  .part.hidden-part { display: none; }
+  .part-header { padding: 0.9rem 1.25rem; display: flex; align-items: center; gap: 12px; cursor: pointer; border-bottom: 0.5px solid var(--gray-2); user-select: none; }
+  .part-header:hover { background: var(--gray-1); }
+  .part-num { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .part-header-text { flex: 1; }
+  .part-title { font-size: 13px; font-weight: 600; color: var(--dark); }
+  .part-desc { font-size: 11px; color: var(--gray-4); margin-top: 1px; }
+  .part-toggle { font-size: 16px; color: var(--gray-3); transition: transform 0.2s; }
+  .part-toggle.open { transform: rotate(180deg); }
+  .part-body.hidden { display: none; }
+
+  /* TOPIC ROWS */
+  .topic { padding: 0.85rem 1.25rem; border-bottom: 0.5px solid var(--gray-2); display: flex; gap: 10px; }
+  .topic:last-child { border-bottom: none; }
+  .topic.filtered-out { display: none; }
+  .topic-num { font-size: 10px; font-weight: 700; color: var(--gray-3); min-width: 26px; padding-top: 2px; }
+  .topic-content { flex: 1; min-width: 0; }
+  .topic-title { font-size: 13px; font-weight: 500; color: var(--dark); margin-bottom: 5px; }
+  .topic-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-bottom: 6px; }
+
+  /* BADGES */
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+  .badge-who { background: var(--gray-1); color: var(--gray-4); border: 0.5px solid var(--gray-2); }
+  .badge-for { background: var(--orange-light); color: var(--orange); border: 0.5px solid var(--orange-mid); font-weight: 500; }
+  .badge-wip { background: var(--amber-light); color: var(--amber); border: 0.5px solid #EF9F2733; font-weight: 500; }
+
+  /* TIMESTAMP */
+  .timestamp { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+  .ts-fresh { background: #E1F5EE; color: #0F6E56; }
+  .ts-ok    { background: #E6F1FB; color: #185FA5; }
+  .ts-old   { background: #FAEEDA; color: #854F0B; }
+  .ts-stale { background: #FCEBEB; color: #A32D2D; }
+  .ts-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .ts-fresh .ts-dot { background: #0F6E56; }
+  .ts-ok    .ts-dot { background: #185FA5; }
+  .ts-old   .ts-dot { background: #854F0B; }
+  .ts-stale .ts-dot { background: #A32D2D; }
+
+  /* DOCS */
+  .docs { display: flex; flex-direction: column; gap: 4px; }
+  .doc-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--blue); background: var(--blue-light); border: 0.5px solid #378ADD33; padding: 4px 10px; border-radius: 6px; text-decoration: none; width: fit-content; transition: background 0.12s; }
+  .doc-link:hover { background: #B5D4F4; }
+  .doc-link.no-link { color: var(--gray-4); background: var(--gray-1); border-color: var(--gray-2); cursor: default; }
+
+  /* SUBTOPIC */
+  .subtopic { padding: 0.6rem 1.25rem 0.6rem 2.8rem; border-bottom: 0.5px solid var(--gray-2); background: #FAFAFA; }
+  .subtopic:last-child { border-bottom: none; }
+  .subtopic-label { font-size: 12px; font-weight: 500; color: var(--dark); margin-bottom: 4px; }
+  .subtopic-items { display: flex; flex-direction: column; gap: 3px; margin-bottom: 5px; }
+  .subtopic-item { font-size: 11px; color: var(--gray-4); display: flex; align-items: flex-start; gap: 5px; }
+  .subtopic-item::before { content: "·"; color: var(--orange); font-weight: 700; flex-shrink: 0; }
+
+  /* PART COLORS */
+  .p1 .part-num { background: var(--orange-light); color: var(--orange); } .p1 .part-header { border-left: 3px solid var(--orange); }
+  .p2 .part-num { background: var(--blue-light); color: var(--blue); }    .p2 .part-header { border-left: 3px solid var(--blue); }
+  .p3 .part-num { background: var(--green-light); color: var(--green); }  .p3 .part-header { border-left: 3px solid var(--green); }
+  .p4 .part-num { background: var(--purple-light); color: var(--purple); }.p4 .part-header { border-left: 3px solid var(--purple); }
+  .p5 .part-num { background: var(--amber-light); color: var(--amber); }  .p5 .part-header { border-left: 3px solid #EF9F27; }
+  .p6 .part-num { background: var(--red-light); color: var(--red); }      .p6 .part-header { border-left: 3px solid var(--red); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; padding: 8px 12px; background: var(--white); border-radius: 8px; border: 0.5px solid var(--gray-2); margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--gray-4); }
+  .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+
+
+  /* SEARCH BAR */
+  .search-bar-wrap { background: var(--white); border-bottom: 0.5px solid var(--gray-2); padding: 0.6rem 2rem; position: sticky; top: 100px; z-index: 88; }
+  .search-bar-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 8px; }
+  .search-bar { flex: 1; position: relative; }
+  .search-bar input { width: 100%; padding: 8px 12px 8px 36px; font-size: 13px; border: 0.5px solid var(--gray-2); border-radius: 8px; background: var(--gray-1); color: var(--dark); font-family: inherit; outline: none; transition: border-color 0.15s, background 0.15s; }
+  .search-bar input:focus { border-color: var(--orange); background: var(--white); }
+  .search-bar .s-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--gray-3); pointer-events: none; }
+  .search-bar .s-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--gray-3); cursor: pointer; display: none; background: none; border: none; padding: 0; }
+  .search-bar .s-clear.visible { display: block; }
+  .search-count { font-size: 11px; color: var(--gray-3); white-space: nowrap; }
+
+  /* CHATBOT BUBBLE */
+  .chat-bubble { position: fixed; bottom: 24px; right: 24px; z-index: 200; }
+  .chat-trigger { width: 52px; height: 52px; border-radius: 50%; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(255,107,0,0.35); transition: transform 0.2s, background 0.15s; }
+  .chat-trigger:hover { transform: scale(1.08); background: #e05e00; }
+  .chat-trigger i { font-size: 24px; color: #fff; }
+  .chat-notif { position: absolute; top: -2px; right: -2px; width: 14px; height: 14px; background: #E24B4A; border-radius: 50%; border: 2px solid var(--white); display: none; }
+  .chat-notif.show { display: block; }
+  .chat-panel { position: absolute; bottom: 64px; right: 0; width: 340px; background: var(--white); border-radius: 14px; border: 0.5px solid var(--gray-2); box-shadow: 0 8px 32px rgba(0,0,0,0.14); display: none; flex-direction: column; overflow: hidden; max-height: 500px; }
+  .chat-panel.open { display: flex; }
+  .chat-head { background: var(--dark); padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+  .chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chat-avatar i { font-size: 18px; color: #fff; }
+  .chat-head-text { flex: 1; }
+  .chat-head-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .chat-head-status { font-size: 10px; color: #aaa; display: flex; align-items: center; gap: 4px; }
+  .chat-head-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #1D9E75; display: inline-block; }
+  .chat-close { background: none; border: none; color: #aaa; cursor: pointer; font-size: 18px; padding: 0; }
+  .chat-close:hover { color: #fff; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .msg { max-width: 85%; display: flex; flex-direction: column; gap: 2px; }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble { padding: 8px 11px; border-radius: 10px; font-size: 12px; line-height: 1.5; }
+  .msg.bot .msg-bubble { background: var(--gray-1); color: var(--dark); border-radius: 2px 10px 10px 10px; }
+  .msg.user .msg-bubble { background: var(--orange); color: #fff; border-radius: 10px 2px 10px 10px; }
+  .msg-bubble a { color: var(--blue); text-decoration: underline; font-size: 11px; display: block; margin-top: 3px; }
+  .msg.user .msg-bubble a { color: #ffe0c8; }
+  .msg-time { font-size: 9px; color: var(--gray-3); padding: 0 4px; }
+  .msg.user .msg-time { text-align: right; }
+  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 8px 11px; background: var(--gray-1); border-radius: 2px 10px 10px 10px; width: fit-content; }
+  .chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-3); animation: bounce 1.2s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+  .chat-suggestions { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 12px 8px; }
+  .chat-sug { font-size: 10px; padding: 4px 9px; border: 0.5px solid var(--orange); border-radius: 10px; color: var(--orange); background: var(--orange-light); cursor: pointer; transition: background 0.12s; }
+  .chat-sug:hover { background: var(--orange-mid); }
+  .chat-input-row { padding: 10px 12px; border-top: 0.5px solid var(--gray-2); display: flex; gap: 7px; align-items: center; }
+  .chat-input { flex: 1; padding: 7px 10px; font-size: 12px; border: 0.5px solid var(--gray-2); border-radius: 8px; font-family: inherit; outline: none; background: var(--gray-1); color: var(--dark); }
+  .chat-input:focus { border-color: var(--orange); background: var(--white); }
+  .chat-send { width: 32px; height: 32px; border-radius: 8px; background: var(--orange); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; }
+  .chat-send:hover { background: #e05e00; }
+  .chat-send i { font-size: 16px; color: #fff; }
+
+
+  /* COURSE CARDS */
+  .courses-wrap { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .course-card { border: 0.5px solid var(--gray-2); border-radius: 10px; overflow: hidden; background: var(--gray-1); transition: border-color 0.15s; }
+  .course-card:hover { border-color: var(--orange); }
+  .course-card-inner { display: flex; align-items: center; gap: 12px; padding: 10px 12px; }
+  .course-thumb { width: 80px; height: 52px; border-radius: 6px; overflow: hidden; flex-shrink: 0; background: #111; position: relative; }
+  .course-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .course-thumb .play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); }
+  .course-thumb .play-btn::after { content: ''; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 13px solid #fff; margin-left: 3px; }
+  .course-info { flex: 1; min-width: 0; }
+  .course-title { font-size: 12px; font-weight: 600; color: var(--dark); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .course-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .course-tag { font-size: 10px; padding: 1px 7px; border-radius: 8px; }
+  .course-tag.new { background: var(--orange-light); color: var(--orange); border: 0.5px solid var(--orange-mid); font-weight: 600; }
+  .course-tag.type { background: var(--purple-light); color: var(--purple); border: 0.5px solid #534AB733; }
+  .course-tag.dur { background: var(--gray-2); color: var(--gray-4); }
+  .course-btn { padding: 5px 12px; background: var(--orange); color: #fff; border: none; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+  .course-btn:hover { background: #e05e00; }
+
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--gray-3); }
+
+  /* TICKET BUTTON */
+  .ticket-btn { background: var(--orange); color: #fff; border: none; border-radius: 7px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: background 0.15s; }
+  .ticket-btn:hover { background: #e05e00; }
+
+  /* TICKET MODAL OVERLAY */
+  .ticket-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; }
+  .ticket-overlay.open { display: flex; }
+  .ticket-modal { background: #fff; border-radius: 14px; width: 480px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
+  .ticket-modal-header { padding: 1.25rem 1.5rem 1rem; border-bottom: 0.5px solid #EBEBEB; display: flex; align-items: flex-start; justify-content: space-between; }
+  .ticket-modal-title { font-size: 15px; font-weight: 700; color: #1A1A1A; }
+  .ticket-modal-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .ticket-close { background: none; border: none; font-size: 20px; cursor: pointer; color: #aaa; padding: 0; line-height: 1; }
+  .ticket-close:hover { color: #333; }
+  .ticket-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .ticket-field { display: flex; flex-direction: column; gap: 5px; }
+  .ticket-field label { font-size: 11px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.05em; }
+  .ticket-field input, .ticket-field select, .ticket-field textarea { font-size: 13px; padding: 8px 10px; border: 0.5px solid #DDDDD8; border-radius: 7px; color: #1A1A1A; background: #FAFAFA; font-family: inherit; outline: none; transition: border-color 0.15s; }
+  .ticket-field input:focus, .ticket-field select:focus, .ticket-field textarea:focus { border-color: var(--orange); background: #fff; }
+  .ticket-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .ticket-types { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .ticket-type-btn { padding: 8px 6px; border: 0.5px solid #DDDDD8; border-radius: 8px; background: #FAFAFA; cursor: pointer; text-align: center; font-size: 11px; color: #555; transition: all 0.12s; line-height: 1.3; }
+  .ticket-type-btn .t-icon { font-size: 18px; display: block; margin-bottom: 3px; }
+  .ticket-type-btn:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
+  .ticket-type-btn.selected { border-color: var(--orange); background: var(--orange-light); color: var(--orange); font-weight: 600; }
+  .ticket-priority { display: flex; gap: 7px; }
+  .prio-btn { flex: 1; padding: 6px 4px; border: 0.5px solid #DDDDD8; border-radius: 7px; background: #FAFAFA; cursor: pointer; text-align: center; font-size: 11px; color: #555; transition: all 0.12s; }
+  .prio-btn:hover { border-color: #aaa; }
+  .prio-btn.p-low.selected    { background: #E1F5EE; border-color: #0F6E56; color: #0F6E56; font-weight: 600; }
+  .prio-btn.p-mid.selected    { background: #FAEEDA; border-color: #854F0B; color: #854F0B; font-weight: 600; }
+  .prio-btn.p-high.selected   { background: #FCEBEB; border-color: #A32D2D; color: #A32D2D; font-weight: 600; }
+  .ticket-footer { padding: 1rem 1.5rem 1.25rem; border-top: 0.5px solid #EBEBEB; display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-cancel { padding: 8px 16px; background: none; border: 0.5px solid #DDDDD8; border-radius: 7px; font-size: 13px; cursor: pointer; color: #555; }
+  .btn-cancel:hover { background: #F4F4F2; }
+  .btn-submit { padding: 8px 20px; background: var(--orange); border: none; border-radius: 7px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: background 0.15s; }
+  .btn-submit:hover { background: #e05e00; }
+  .ticket-success { display: none; padding: 2rem 1.5rem; text-align: center; }
+  .ticket-success .s-icon { font-size: 40px; margin-bottom: 0.75rem; }
+  .ticket-success .s-title { font-size: 15px; font-weight: 700; color: #1A1A1A; margin-bottom: 5px; }
+  .ticket-success .s-sub { font-size: 12px; color: #888; line-height: 1.5; }
+
+  @media (max-width: 700px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .topbar-nav { display: none; }
+    .hero h1 { font-size: 1.4rem; }
+    .filter-bar { padding: 0.75rem 1rem; }
+    .layout { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-logo" href="#top">
+    <span class="badge">DiDi</span>
+    <span class="name">Alianza Learning School</span>
+  </a>
+  <nav class="topbar-nav">
+    <a href="#parte1" data-i18n="nav1">Equipo</a>
+    <a href="#parte2" data-i18n="nav2">Sistemas</a>
+    <a href="#parte3" data-i18n="nav3">Captación</a>
+    <a href="#parte4" data-i18n="nav4">Capacitación</a>
+    <a href="#parte5" data-i18n="nav5">Operación</a>
+    <a href="#parte6" data-i18n="nav6">Salida</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:10px">
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+  </div>
+  <button class="ticket-btn" onclick="openTicket()" data-i18n="ticketBtn">🎫 Generar Ticket</button>
+</div>
+</div>
+
+<!-- TICKET MODAL -->
+<div class="ticket-overlay" id="ticketOverlay" onclick="overlayClick(event)">
+  <div class="ticket-modal" id="ticketModal">
+    <div class="ticket-modal-header">
+      <div>
+        <div class="ticket-modal-title" data-i18n="ticketTitle">🎫 Generar Ticket de Solicitud</div>
+        <div class="ticket-modal-sub" data-i18n="ticketSub">Material nuevo, actualización o reporte de problema</div>
+      </div>
+      <button class="ticket-close" onclick="closeTicket()">✕</button>
+    </div>
+    <div class="ticket-body" id="ticketForm">
+      <div class="ticket-field">
+        <label data-i18n="ticketTypeLabel">Tipo de solicitud</label>
+        <div class="ticket-types">
+          <button class="ticket-type-btn" onclick="selectType(this,'nuevo')"><span class="t-icon">📚</span>Material nuevo</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'actualizacion')"><span class="t-icon">🔄</span>Actualización</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'error')"><span class="t-icon">🔴</span>Link roto / Error</button>
+          <button class="ticket-type-btn" onclick="selectType(this,'feedback')"><span class="t-icon">💬</span>Feedback general</button>
+        </div>
+      </div>
+      <div class="ticket-field">
+        <label data-i18n="ticketSectionLabel">Sección relacionada</label>
+        <select id="t-section">
+          <option value="">— Selecciona una sección —</option>
+          <option>1 · Equipo y Roles</option>
+          <option>2 · Sistemas y Accesos</option>
+          <option>3 · Captación de Vendors</option>
+          <option>4 · Capacitación</option>
+          <option>5 · Gestión Operativa</option>
+          <option>6 · Salida y Offboarding</option>
+          <option>General / No aplica</option>
+        </select>
+      </div>
+      <div class="ticket-field">
+        <label data-i18n="ticketMaterialLabel">Nombre del material o tema</label>
+        <input type="text" id="t-material" data-i18n-ph="ticketMaterialPh" placeholder="Ej. KPI Dashboard Módulo, Onboarding Process…">
+      </div>
+      <div class="ticket-field">
+        <label data-i18n="ticketDescLabel">Descripción del problema o solicitud</label>
+        <textarea id="t-desc" data-i18n-ph="ticketDescPh" placeholder="Describe qué necesitas, qué está desactualizado o qué no funciona…"></textarea>
+      </div>
+      <div class="ticket-field">
+        <label data-i18n="ticketPrioLabel">Prioridad</label>
+        <div class="ticket-priority">
+          <button class="prio-btn p-low" onclick="selectPrio(this)">🟢 Baja</button>
+          <button class="prio-btn p-mid selected" onclick="selectPrio(this)">🟡 Media</button>
+          <button class="prio-btn p-high" onclick="selectPrio(this)">🔴 Alta</button>
+        </div>
+      </div>
+      <div class="ticket-field">
+        <label data-i18n="ticketNameLabel">Tu nombre o equipo</label>
+        <input type="text" id="t-name" data-i18n-ph="ticketNamePh" placeholder="Ej. Andrea Arciniega · Equipo VM">
+      </div>
+    </div>
+    <div class="ticket-success" id="ticketSuccess">
+      <div class="s-icon">✅</div>
+      <div class="s-title">¡Ticket generado!</div>
+      <div class="s-sub" id="ticketSummary"></div>
+    </div>
+    <div class="ticket-footer" id="ticketFooter">
+      <button class="btn-cancel" onclick="closeTicket()" data-i18n="ticketCancel">Cancelar</button>
+      <button class="btn-submit" onclick="submitTicket()" data-i18n="ticketSubmit">Enviar Ticket →</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero" id="top">
+  <div class="hero-inner">
+    <p class="hero-eyebrow" data-i18n="heroEyebrow">Vendor Growth &amp; Training Strategy</p>
+    <h1>DiDi Alianza<br><span>Learning School</span></h1>
+    <p class="hero-sub" data-i18n="heroSub">Repositorio centralizado de materiales de capacitación para el equipo de Alianza.</p>
+    <div class="hero-chips">
+      <a class="hero-chip" href="#parte1" data-i18n="chip1">📋 Equipo &amp; Roles</a>
+      <a class="hero-chip" href="#parte2" data-i18n="chip2">🖥️ Sistemas</a>
+      <a class="hero-chip" href="#parte3" data-i18n="chip3">🤝 Captación</a>
+      <a class="hero-chip" href="#parte4" data-i18n="chip4">🎓 Capacitación</a>
+      <a class="hero-chip" href="#parte5" data-i18n="chip5">⚙️ Operación</a>
+      <a class="hero-chip" href="#parte6" data-i18n="chip6">🚪 Salida</a>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <label data-i18n="filterForLabel">For Who:</label>
+    <select id="filterFor" onchange="applyFilters()">
+      <option value="" data-i18n="optAll">Todos</option>
+      <option value="Todo Equipo" data-i18n="optAllTeam" data-i18n="forAllTeam">Todo Equipo</option>
+      <option value="RM">RM</option>
+      <option value="VM">VM</option>
+      <option value="Delivery Partner Team" data-i18n="forDelivery">Delivery Partner Team</option>
+      <option value="Supply Growth Team" data-i18n="forSupply">Supply Growth Team</option>
+      <option value="Finance+Tax" data-i18n="forFinance">Finance+Tax</option>
+    </select>
+    <div class="filter-divider"></div>
+    <label data-i18n="filterFromLabel">From Who:</label>
+    <select id="filterFrom" onchange="applyFilters()">
+      <option value="" data-i18n="optAll">Todos</option>
+      <option value="Luis Lu">Luis Lu</option>
+      <option value="Horacio Gonzalez">Horacio Gonzalez</option>
+      <option value="Andrea Arciniega">Andrea Arciniega</option>
+      <option value="Gustavo Hernandez">Gustavo Hernandez</option>
+      <option value="Rebeca Chang">Rebeca Chang</option>
+      <option value="Lea">Lea</option>
+      <option value="Blanch">Blanch</option>
+      <option value="Bob">Bob</option>
+    </select>
+    <div class="filter-divider"></div>
+    <label data-i18n="filterAgeLabel">Antigüedad:</label>
+    <select id="filterAge" onchange="applyFilters()">
+      <option value="" data-i18n="optAll">Todos</option>
+      <option value="fresh">Reciente (&lt;30 días)</option>
+      <option value="ok">Normal (1–3 meses)</option>
+      <option value="old">Revisar (3–6 meses)</option>
+      <option value="stale">Desactualizado (&gt;6 meses)</option>
+    </select>
+    <button class="filter-reset" onclick="resetFilters()" data-i18n="filterReset">✕ Limpiar</button>
+    <span class="filter-count" id="filterCount"></span>
+  </div>
+</div>
+
+<div class="search-bar-wrap" id="searchBarWrap">
+  <div class="search-bar-inner">
+    <div class="search-bar">
+      <i class="ti ti-search s-icon" aria-hidden="true"></i>
+      <input type="text" id="globalSearch" placeholder="Buscar materiales, temas, responsables…" oninput="globalSearchFn(this.value)">
+      <button class="s-clear" id="searchClear" onclick="clearSearch()">✕</button>
+    </div>
+    <span class="search-count" id="searchCount"></span>
+  </div>
+</div>
+
+
+<div class="layout">
+
+  <!-- SIDEBAR INDEX -->
+  <aside class="sidebar">
+    <div class="sidebar-title" data-i18n="sidebarTitle">Índice General</div>
+    <div class="index-card">
+      <a class="index-item" href="#parte1">
+        <div class="index-num" style="background:var(--orange-light);color:var(--orange)">1</div>
+        <div><div class="index-text" data-i18n="idxTitle1">Equipo y Roles</div><div class="index-sub" data-i18n="idx1sub">4 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte2">
+        <div class="index-num" style="background:var(--blue-light);color:var(--blue)">2</div>
+        <div><div class="index-text" data-i18n="idxTitle2">Sistemas y Accesos</div><div class="index-sub" data-i18n="idx2sub">3 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte3">
+        <div class="index-num" style="background:var(--green-light);color:var(--green)">3</div>
+        <div><div class="index-text" data-i18n="idxTitle3">Captación de Vendors</div><div class="index-sub" data-i18n="idx3sub">5 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte4">
+        <div class="index-num" style="background:var(--purple-light);color:var(--purple)">4</div>
+        <div><div class="index-text" data-i18n="idxTitle4">Capacitación</div><div class="index-sub" data-i18n="idx4sub">3 temas + subtemas</div></div>
+      </a>
+      <a class="index-item" href="#parte5">
+        <div class="index-num" style="background:var(--amber-light);color:var(--amber)">5</div>
+        <div><div class="index-text" data-i18n="idxTitle5">Gestión Operativa</div><div class="index-sub" data-i18n="idx3sub">5 temas</div></div>
+      </a>
+      <a class="index-item" href="#parte6">
+        <div class="index-num" style="background:var(--red-light);color:var(--red)">6</div>
+        <div><div class="index-text" data-i18n="idxTitle6">Salida y Offboarding</div><div class="index-sub" data-i18n="idx2sub">3 temas</div></div>
+      </a>
+    </div>
+
+    <div class="stats-mini">
+      <div class="stat-row"><span data-i18n="statTotal">Total materiales</span><span>23</span></div>
+      <div class="stat-row"><span data-i18n="statActive">Con link activo</span><span style="color:var(--green)">11</span></div>
+      <div class="stat-row"><span data-i18n="statPending">Pendientes link</span><span style="color:var(--amber)">12</span></div>
+      <div class="stat-row"><span data-i18n="statWip">WIP / En proceso</span><span style="color:var(--orange)">4</span></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#0F6E56"></div> <span data-i18n="leg1">&lt;30 días</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div> <span data-i18n="leg2">1–3 meses</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div> <span data-i18n="leg3">3–6 meses</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A32D2D"></div> <span data-i18n="leg4">&gt;6 meses</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- PARTE 1 -->
+    <div class="part p1" id="parte1">
+      <div class="part-header" onclick="toggle('b1')">
+        <div class="part-num">1</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p1title">Antecedentes del Proyecto / Panorama de Equipo y Roles</div>
+          <div class="part-desc" data-i18n="p1desc">Formación interna y sesiones informativas para gestores de relaciones.</div>
+        </div>
+        <span class="part-toggle open" id="t1">▾</span>
+      </div>
+      <div class="part-body" id="b1">
+
+        <div class="topic" data-for="Todo Equipo" data-from="Luis Lu" data-date="2026-06-08">
+          <div class="topic-num">1.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t11">Introducción al Equipo: Contexto de Courier Labs y visión de negocio</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Luis Lu</span>
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="badge badge-wip" data-i18n="badgeWip">⏳ WIP</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Courier Labs Team — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Alianza Structure — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="Luis Lu" data-date="2026-06-08">
+          <div class="topic-num">1.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t12">Código de Conducta: Team Red Line</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Luis Lu</span>
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="badge badge-wip" data-i18n="badgeWipDoc">⏳ WIP — pendiente redactar</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Delivery Partner Team" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">1.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t13">Reglas de Desempeño: Estándares de evaluación de KPI</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez Ronquillo</span>
+              <span class="badge badge-for" data-i18n="forDelivery">Delivery Partner Team</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📊 Delivery Partnership Structure — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 RM Distribution — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 Tracking List New Pipeline — link por añadir</a>
+              <a class="doc-link no-link" href="#">📊 KPI Dashboard Módulo — link por añadir</a>
+              <a class="doc-link no-link" href="#">📋 KPI List — Supply Growth Team (Rebeca Chang) — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="Luis Lu" data-date="2026-06-08">
+          <div class="topic-num">1.4</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t14">Seguimiento de Objetivos: Tablero de metas anuales Y25/Y26 (Target 100D)</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Luis Lu</span>
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 2 -->
+    <div class="part p2" id="parte2">
+      <div class="part-header" onclick="toggle('b2')">
+        <div class="part-num">2</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p2title">Sistemas y Accesos</div>
+          <div class="part-desc" data-i18n="p2desc">Herramientas básicas de productividad para el flujo de información.</div>
+        </div>
+        <span class="part-toggle open" id="t2">▾</span>
+      </div>
+      <div class="part-body" id="b2">
+
+        <div class="topic" data-for="Todo Equipo" data-from="" data-date="2026-06-08">
+          <div class="topic-num">2.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t21">Gattaran: Gestión de repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://gattaran.didi-food.com/v2/d-side/summary" target="_blank">🖥️ Gattaran — Abrir plataforma</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="" data-date="2026-06-08">
+          <div class="topic-num">2.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t22">EastWind: Plataforma operativa central para el socio</div>
+            <div class="topic-meta">
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://page.didiglobal.com/public-biz/pc-login/3.0.6/index.html?jto=aHR0cHM6Ly9lYXN0d2luZC5kaWRpLWZvb2QuY29tL3dvcmtzaG9w&role=5000&source=70001&appid=200015&lang=zh-CN&country_id=484&redirectUrl=https%3A%2F%2Feastwind.didi-food.com%2Fcommon%2Flogin#/?jto=aHR0cHM6Ly9lYXN0d2luZC5kaWRpLWZvb2QuY29tL3dvcmtzaG9w" target="_blank">🖥️ EastWind — Abrir plataforma</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="Delivery Partner Team" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">2.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t23">Dashboards de Datos: Paneles diarios por proveedor y zona</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez / Bob</span>
+              <span class="badge badge-for" data-i18n="forDelivery">Delivery Partner Team</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://bigdata.intra.didiglobal.com/analysis_platform_static/board.html#/?type=reportView&reportId=116717&source=market&subReportId=355933" target="_blank">📊 Vendor by Hotzone</a>
+              <a class="doc-link" href="https://bigdata.intra.didiglobal.com/analysis_platform_static/board.html#/?type=reportView&reportId=102795&source=market&subReportId=287439" target="_blank">📊 Vendor Courier Data</a>
+              <a class="doc-link" href="https://www.google.com/maps/d/u/0/viewer?mid=1d9UvjGqW7JL0mTUYxc72_vvMh1u0I8c&ll=19.394497676285603%2C-99.04985534577875&z=11" target="_blank">🗺️ CDMX OP-Zona</a>
+              <a class="doc-link" href="https://www.google.com/maps/d/u/0/viewer?ll=25.757183409389455%2C-100.20774680243215&z=11&mid=1sUNxDrAvXdcc5oEzEBDEK8rR_95y--c" target="_blank">🗺️ MTY OP-Zone</a>
+              <a class="doc-link" href="https://datastudio.google.com/u/0/reporting/5e4046fd-f83f-447e-88c4-9e15d367441a/page/ThPeF" target="_blank">📊 Vendor Performance Weekly 2026H1</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 3 -->
+    <div class="part p3" id="parte3">
+      <div class="part-header" onclick="toggle('b3')">
+        <div class="part-num">3</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p3title">Captación y Contratación de Proveedores</div>
+          <div class="part-desc" data-i18n="p3desc">Herramientas para negociaciones comerciales y atracción de nuevos socios.</div>
+        </div>
+        <span class="part-toggle open" id="t3">▾</span>
+      </div>
+      <div class="part-body" id="b3">
+
+        <div class="topic" data-for="VM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">3.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t31">Propuestas de Negociación (Proposals)</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 OPS Team / VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 CDMX — Nueva Propuesta de Precio — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 MTY — Nueva Propuesta de Precio — link por añadir</a>
+              <a class="doc-link" href="https://datastudio.google.com/u/0/reporting/efe8f5e6-1fee-409a-ad98-3143591e2df2/page/8k9xF" target="_blank">📊 Dashboard Google Data Studio</a>
+              <a class="doc-link no-link" href="#">📄 Introducción general a DiDi Alianza — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Propuesta para Vendor Moto — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Propuesta para Vendor LM — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Horacio Gonzalez" data-date="2026-06-08">
+          <div class="topic-num">3.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t32">Pool de Prospectos / Leads Pool</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Horacio Gonzalez Ronquillo</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://cooper.didichuxing.com/docs2/sheet/2207487976749" target="_blank">📊 Tracking List New Pipeline</a>
+              <a class="doc-link no-link" href="#">📋 SOP Pipeline Leads &amp; Vendor Process — link por añadir</a>
+              <a class="doc-link no-link" href="#">📋 Pool de recursos Vendor Growth Team — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">3.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t33">Guía de Registro y Onboarding</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega Rojas</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Onboarding Process — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Documentos solicitados / 文件审核SOP — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 NDA Doc — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Contract Doc — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Collaboration Agreement — Main Contract — link por añadir</a>
+              <a class="doc-link" href="https://docs.google.com/forms/d/1YMv-oGZBAWWXeZQ_oZYqE0wsu7rY7vxPZ2HqTAYThsc/edit#responses" target="_blank">🔗 Google Form for Onboarding</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">3.4</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t34">Políticas de Incentivos: Resumen de incentivos por firma y políticas operativas</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM / VM</span>
+              <span class="badge badge-wip" data-i18n="badgeTbd">⏳ Por definir</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Gustavo Hernandez" data-date="2026-06-08">
+          <div class="topic-num">3.5</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t35">Preparativos de Materiales: Mochilas/Bolsas de Vendor</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Gustavo Hernandez Garcia</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">🎞️ Presentación de materiales — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 4 -->
+    <div class="part p4" id="parte4">
+      <div class="part-header" onclick="toggle('b4')">
+        <div class="part-num">4</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p4title">Capacitación y Empoderamiento</div>
+          <div class="part-desc" data-i18n="p4desc">Materiales para la formación del Vendor y sus repartidores.</div>
+        </div>
+        <span class="part-toggle open" id="t4">▾</span>
+      </div>
+      <div class="part-body" id="b4">
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">4.1.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t411">Capacitaciones para VM</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega / Daniela López / Rebeca Chang</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="subtopic-items" style="margin-top:4px">
+              <div class="subtopic-item">合规性内容 — Auditoría de cumplimiento: verificación de documentos y línea roja</div>
+              <div class="subtopic-item">运营内容培训 — Proceso de entrada / Precios / Indicadores clave</div>
+              <div class="subtopic-item">谈判话术 — Argumentarios y preguntas frecuentes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="Lea" data-date="2026-06-08">
+          <div class="topic-num">4.1.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t412">Capacitaciones para RM</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Lea / Coco</span>
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="subtopic-items" style="margin-top:4px">
+              <div class="subtopic-item">合规性内容 — Auditoría de cumplimiento y línea roja</div>
+              <div class="subtopic-item">运营内容培训 — Desglose de KPIs / Lógica operativa / Facturación / Políticas</div>
+              <div class="subtopic-item">谈判话术 — Argumentarios y manejo de escenarios anómalos</div>
+            </div>
+            <div class="docs" style="margin-top:6px">
+              <a class="doc-link no-link" href="#">📄 Invoice — In Process</a>
+              <a class="doc-link no-link" href="#">📄 Invoice &amp; Appeals — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="VM" data-from="Andrea Arciniega" data-date="2026-06-08">
+          <div class="topic-num">4.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t42">Capacitación para Vendor</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Andrea Arciniega / Coco</span>
+              <span class="badge badge-for">VM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">🎓 Courier Labs Learning Center — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Onboarding 0&amp;1 — In Process</a>
+            </div>
+            <div class="subtopic-items" style="margin-top:6px">
+              <div class="subtopic-item">Principales datos del sistema a monitorear + KPIs</div>
+              <div class="subtopic-item">Gestión del ciclo de vida del repartidor</div>
+              <div class="subtopic-item">Manejo de escenarios anómalos</div>
+              <div class="subtopic-item">Optimización del modelo operativo del Vendor</div>
+            </div>
+
+            <!-- CURSOS -->
+            <div style="margin-top:12px">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--orange);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+                <span data-i18n="coursesTitle">🎓 Cursos disponibles</span>
+              </div>
+              <div class="courses-wrap">
+
+                <div class="course-card">
+                  <div class="course-card-inner">
+                    <div class="course-thumb">
+                      <img src="https://img.youtube.com/vi/mVgWhm48-w0/mqdefault.jpg" alt="3R Vendors" onerror="this.src='';this.parentElement.style.background='#333'">
+                      <div class="play-btn"></div>
+                    </div>
+                    <div class="course-info">
+                      <div class="course-title">Evaluación 3R — Vendors</div>
+                      <div class="course-meta">
+                        <span class="course-tag new" data-i18n="courseNew">⭐ Nuevo</span>
+                        <span class="course-tag type" data-i18n="courseType">📹 Video + Evaluación</span>
+                        <span class="course-tag dur" data-i18n="courseDur">~5 min</span>
+                      </div>
+                    </div>
+                    <a class="course-btn" href="evaluacion_3R.html" target="_blank" data-i18n="courseStart">Iniciar →</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="topic" data-for="Todo Equipo" data-from="Gustavo Hernandez" data-date="2026-06-08">
+          <div class="topic-num">4.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t43">Capacitación para Repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Gustavo Hernandez / Eva</span>
+              <span class="badge badge-for" data-i18n="forAllTeam">Todo Equipo</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📄 Guía Operativa Couriers — Final.pdf — link por añadir</a>
+              <a class="doc-link no-link" href="#">🛡️ Security — In Process</a>
+              <a class="doc-link no-link" href="#">📋 Reglas línea roja y anti-fraude — pendiente</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 5 -->
+    <div class="part p5" id="parte5">
+      <div class="part-header" onclick="toggle('b5')">
+        <div class="part-num">5</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p5title">Gestión Operativa y Optimización</div>
+          <div class="part-desc" data-i18n="p5desc">Herramientas de gestión diaria para elevar el nivel y eficiencia del Vendor.</div>
+        </div>
+        <span class="part-toggle open" id="t5">▾</span>
+      </div>
+      <div class="part-body" id="b5">
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">—</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t50">Recursos base del RM</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link" href="https://cooper.didichuxing.com/docs2/sheet/2206128278347" target="_blank">📊 Vendor Dashboard v1.0</a>
+              <a class="doc-link no-link" href="#">📄 RM Weekly Settlement Record — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 RM Vendor Slot Target Management Scheme — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t51">Planificación de Zonas: HotZones y objetivos de cuota</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 SOP Seteo de Slot Prioritario y Zona — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="Blanch" data-date="2026-06-08">
+          <div class="topic-num">5.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t52">Gestión de Indicadores Clave: Dashboard de repartidores</div>
+            <div class="topic-meta">
+              <span class="badge badge-who">👤 Blanch / Lea</span>
+              <span class="badge badge-for">RM / VM / Finance+Tax</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📊 Finance+Tax Q&amp;A List — link por añadir</a>
+              <a class="doc-link no-link" href="#">📄 Sistema de Niveles de Partner DiDi Alianza — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t53">Gestión Financiera: Facturación y deudas (Bill and Debt)</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 SOP Billing, Deuda y proceso hold — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.4</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t54">Evaluación y Estándares: Niveles DiDi Alianza y gestión de apelaciones</div>
+            <div class="topic-meta">
+              <span class="badge badge-for">RM</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+            <div class="docs">
+              <a class="doc-link no-link" href="#">📋 Proceso estándar de apelaciones — link por añadir</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">5.5</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t55">Experiencia</div>
+            <div class="topic-meta">
+              <span class="badge badge-wip" data-i18n="badgeTbd">⏳ Por definir</span>
+              <span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PARTE 6 -->
+    <div class="part p6" id="parte6">
+      <div class="part-header" onclick="toggle('b6')">
+        <div class="part-num">6</div>
+        <div class="part-header-text">
+          <div class="part-title" data-i18n="p6title">Estándares y Procesos de Salida</div>
+          <div class="part-desc" data-i18n="p6desc">Criterios y procedimientos para la desincorporación de Vendors.</div>
+        </div>
+        <span class="part-toggle open" id="t6">▾</span>
+      </div>
+      <div class="part-body" id="b6">
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.1</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t61">Criterios de Desempeño Insuficiente: Umbrales para rescisión de contrato</div>
+            <div class="topic-meta"><span class="badge badge-wip" data-i18n="badgeTbd">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.2</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t62">Flujo de Reemplazo: Protocolo de transición de zonas entre proveedores</div>
+            <div class="topic-meta"><span class="badge badge-wip" data-i18n="badgeTbd">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+        <div class="topic" data-for="RM" data-from="" data-date="2026-06-08">
+          <div class="topic-num">6.3</div>
+          <div class="topic-content">
+            <div class="topic-title" data-i18n="t63">Offboarding Administrativo: Entrega de activos y liquidación de deudas</div>
+            <div class="topic-meta"><span class="badge badge-wip" data-i18n="badgeTbd">⏳ Por definir</span><span class="timestamp ts-fresh"><span class="ts-dot"></span>06-08-26</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<footer data-i18n="footer">DiDi Alianza Learning School · Vendor Growth &amp; Training Strategy · Última actualización: 06-08-26</footer>
+
+
+<!-- CHATBOT BUBBLE -->
+<div class="chat-bubble" id="chatBubble">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <div class="chat-avatar"><i class="ti ti-robot" aria-hidden="true"></i></div>
+      <div class="chat-head-text">
+        <div class="chat-head-name">Ali — Asistente DiDi</div>
+        <div class="chat-head-status">En línea</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSugs">
+      <button class="chat-sug" onclick="sendSug(this)">¿Qué hay en Onboarding?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Cómo accedo a Gattaran?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Qué es EastWind?</button>
+      <button class="chat-sug" onclick="sendSug(this)">¿Dónde están los KPIs?</button>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" onclick="sendChat()"><i class="ti ti-send" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <button class="chat-trigger" onclick="toggleChat()" aria-label="Abrir asistente">
+    <i class="ti ti-robot" aria-hidden="true"></i>
+  </button>
+  <div class="chat-notif" id="chatNotif"></div>
+</div>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById(id);
+  const num = id.replace('b','');
+  const tog = document.getElementById('t'+num);
+  const hidden = body.classList.toggle('hidden');
+  tog.classList.toggle('open', !hidden);
+}
+
+// Timestamp age calculation
+function getAgeClass(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 30)  return 'fresh';
+  if (days < 90)  return 'ok';
+  if (days < 180) return 'old';
+  return 'stale';
+}
+
+function getAgeLabel(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 1)   return 'Hoy';
+  if (days < 30)  return `Hace ${days}d`;
+  if (days < 90)  return `Hace ${Math.floor(days/7)}sem`;
+  if (days < 365) return `Hace ${Math.floor(days/30)}meses`;
+  return `Hace ${Math.floor(days/365)}año(s)`;
+}
+
+// Update timestamps on load
+document.querySelectorAll('.topic').forEach(t => {
+  const dateStr = t.dataset.date;
+  if (!dateStr) return;
+  const ts = t.querySelector('.timestamp');
+  if (!ts) return;
+  const cls = getAgeClass(dateStr);
+  const lbl = getAgeLabel(dateStr);
+  ts.className = 'timestamp ts-' + cls;
+  ts.innerHTML = `<span class="ts-dot"></span>${lbl} (${dateStr.slice(5).replace('-','/')})`;
+});
+
+function applyFilters() {
+  const forVal  = document.getElementById('filterFor').value;
+  const fromVal = document.getElementById('filterFrom').value;
+  const ageVal  = document.getElementById('filterAge').value;
+
+  let visible = 0;
+  document.querySelectorAll('.topic').forEach(t => {
+    const tFor  = t.dataset.for  || '';
+    const tFrom = t.dataset.from || '';
+    const tDate = t.dataset.date || '';
+    const tAge  = getAgeClass(tDate);
+
+    const matchFor  = !forVal  || tFor.includes(forVal);
+    const matchFrom = !fromVal || tFrom.includes(fromVal);
+    const matchAge  = !ageVal  || tAge === ageVal;
+
+    const show = matchFor && matchFrom && matchAge;
+    t.classList.toggle('filtered-out', !show);
+    if (show) visible++;
+  });
+
+  document.getElementById('filterCount').textContent =
+    (forVal || fromVal || ageVal) ? `${visible} resultado(s)` : '';
+
+  // Show/hide empty parts
+  document.querySelectorAll('.part').forEach(part => {
+    const body = part.querySelector('.part-body');
+    if (!body) return;
+    const anyVisible = [...body.querySelectorAll('.topic')].some(t => !t.classList.contains('filtered-out'));
+    part.classList.toggle('hidden-part', !anyVisible);
+  });
+}
+
+function resetFilters() {
+  document.getElementById('filterFor').value  = '';
+  document.getElementById('filterFrom').value = '';
+  document.getElementById('filterAge').value  = '';
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('filtered-out'));
+  document.querySelectorAll('.part').forEach(p => p.classList.remove('hidden-part'));
+  document.getElementById('filterCount').textContent = '';
+}
+</script>
+<script>
+var selectedType = '';
+var selectedPrio = 'Media';
+
+function openTicket() {
+  document.getElementById('ticketOverlay').classList.add('open');
+  document.getElementById('ticketForm').style.display = 'flex';
+  document.getElementById('ticketSuccess').style.display = 'none';
+  document.getElementById('ticketFooter').style.display = 'flex';
+}
+function closeTicket() {
+  document.getElementById('ticketOverlay').classList.remove('open');
+  // reset
+  selectedType = '';
+  selectedPrio = 'Media';
+  document.querySelectorAll('.ticket-type-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.prio-btn.p-mid').classList.add('selected');
+  document.getElementById('t-section').value = '';
+  document.getElementById('t-material').value = '';
+  document.getElementById('t-desc').value = '';
+  document.getElementById('t-name').value = '';
+}
+function overlayClick(e) { if (e.target.id === 'ticketOverlay') closeTicket(); }
+
+function selectType(btn, type) {
+  selectedType = type;
+  document.querySelectorAll('.ticket-type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function selectPrio(btn) {
+  selectedPrio = btn.textContent.replace(/[🟢🟡🔴]/g,'').trim();
+  document.querySelectorAll('.prio-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+async function submitTicket() {
+  const material = document.getElementById('t-material').value.trim();
+  const desc     = document.getElementById('t-desc').value.trim();
+  const name     = document.getElementById('t-name').value.trim();
+  const section  = document.getElementById('t-section').value;
+
+  if (!selectedType) { alert('Por favor selecciona el tipo de solicitud.'); return; }
+  if (!desc)          { alert('Por favor describe tu solicitud.'); return; }
+
+  const typeLabel = { nuevo:'Material nuevo', actualizacion:'Actualización', error:'Link roto / Error', feedback:'Feedback general' };
+  const ts = new Date().toLocaleString('es-MX', {dateStyle:'short', timeStyle:'short'});
+  const ticketId = '#TKT-' + Date.now().toString().slice(-5);
+
+  // Disable button while sending
+  const btn = document.querySelector('.btn-submit');
+  btn.textContent = 'Enviando…';
+  btn.disabled = true;
+
+  const payload = {
+    ticket:      ticketId,
+    fecha:       ts,
+    tipo:        typeLabel[selectedType] || selectedType,
+    seccion:     section,
+    material:    material,
+    descripcion: desc,
+    prioridad:   selectedPrio,
+    nombre:      name
+  };
+
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbyo2qhSA7M6po4jFKPWsthlfEeQTclQbDZAakNdw6w4jopqlG0sZY2KmSrRsgmW752X/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.warn('Sheet save error:', e);
+  }
+
+  document.getElementById('ticketSummary').innerHTML =
+    `<strong>${ticketId}</strong> registrado el ${ts}<br><br>` +
+    `<b>Tipo:</b> ${typeLabel[selectedType] || selectedType}<br>` +
+    (section  ? `<b>Sección:</b> ${section}<br>` : '') +
+    (material ? `<b>Material:</b> ${material}<br>` : '') +
+    `<b>Prioridad:</b> ${selectedPrio}<br>` +
+    (name     ? `<b>Solicitante:</b> ${name}<br>` : '') +
+    `<br><i>✅ Guardado en Google Sheets. El equipo lo revisará pronto.</i>`;
+
+  document.getElementById('ticketForm').style.display = 'none';
+  document.getElementById('ticketFooter').style.display = 'none';
+  document.getElementById('ticketSuccess').style.display = 'block';
+
+  btn.textContent = 'Enviar Ticket →';
+  btn.disabled = false;
+}
+
+const i18n = {
+  es: {
+
+    p1title:'Antecedentes del Proyecto / Panorama de Equipo y Roles', p1desc:'Formación interna y sesiones informativas para gestores de relaciones.',
+    p2title:'Sistemas y Accesos', p2desc:'Herramientas básicas de productividad para el flujo de información.',
+    p3title:'Captación y Contratación de Proveedores', p3desc:'Herramientas para negociaciones comerciales y atracción de nuevos socios.',
+    p4title:'Capacitación y Empoderamiento', p4desc:'Materiales para la formación del Vendor y sus repartidores.',
+    p5title:'Gestión Operativa y Optimización', p5desc:'Herramientas de gestión diaria para elevar el nivel y eficiencia del Vendor.',
+    p6title:'Estándares y Procesos de Salida', p6desc:'Criterios y procedimientos para la desincorporación de Vendors.',
+    t11:'Introducción al Equipo: Contexto de Courier Labs y visión de negocio',
+    t12:'Código de Conducta: Team Red Line',
+    t13:'Reglas de Desempeño: Estándares de evaluación de KPI',
+    t14:'Seguimiento de Objetivos: Tablero de metas anuales Y25/Y26 (Target 100D)',
+    t21:'Gattaran: Gestión de repartidores', t22:'EastWind: Plataforma operativa central para el socio',
+    t23:'Dashboards de Datos: Paneles diarios por proveedor y zona',
+    t31:'Propuestas de Negociación (Proposals)', t32:'Pool de Prospectos / Leads Pool',
+    t33:'Guía de Registro y Onboarding', t34:'Políticas de Incentivos: Resumen de incentivos por firma y políticas operativas',
+    t35:'Preparativos de Materiales: Mochilas/Bolsas de Vendor',
+    t411:'Capacitaciones para VM', t412:'Capacitaciones para RM',
+    t42:'Capacitación para Vendor', t43:'Capacitación para Repartidores',
+    t50:'Recursos base del RM', t51:'Planificación de Zonas: HotZones y objetivos de cuota',
+    t52:'Gestión de Indicadores Clave: Dashboard de repartidores',
+    t53:'Gestión Financiera: Facturación y deudas (Bill and Debt)',
+    t54:'Evaluación y Estándares: Niveles DiDi Alianza y gestión de apelaciones',
+    t55:'Experiencia', t61:'Criterios de Desempeño Insuficiente: Umbrales para rescisión de contrato',
+    t62:'Flujo de Reemplazo: Protocolo de transición de zonas entre proveedores',
+    t63:'Offboarding Administrativo: Entrega de activos y liquidación de deudas',
+    forAllTeam:'Todo Equipo', forDelivery:'Delivery Partner Team', forSupply:'Supply Growth Team', forFinance:'Finance+Tax',
+    badgeWip:'⏳ WIP', badgeWipDoc:'⏳ WIP — pendiente redactar', badgeTbd:'⏳ Por definir',
+    leg1:'<30 días', leg2:'1–3 meses', leg3:'3–6 meses', leg4:'>6 meses',
+    coursesTitle:'🎓 Cursos disponibles', courseNew:'⭐ Nuevo', courseType:'📹 Video + Evaluación', courseDur:'~5 min', courseStart:'Iniciar →',
+    nav1:'Equipo', nav2:'Sistemas', nav3:'Captación', nav4:'Capacitación', nav5:'Operación', nav6:'Salida',
+    heroEyebrow:'Vendor Growth & Training Strategy',
+    heroSub:'Repositorio centralizado de materiales de capacitación para el equipo de Alianza.',
+    chip1:'📋 Equipo & Roles', chip2:'🖥️ Sistemas', chip3:'🤝 Captación', chip4:'🎓 Capacitación', chip5:'⚙️ Operación', chip6:'🚪 Salida',
+    filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Antigüedad:', filterReset:'✕ Limpiar',
+    optAll:'Todos', optAllTeam:'Todo Equipo',
+    sidebarTitle:'Índice General',
+    idxTitle1:'Equipo y Roles', idxTitle2:'Sistemas y Accesos', idxTitle3:'Captación de Vendors',
+    idxTitle4:'Capacitación', idxTitle5:'Gestión Operativa', idxTitle6:'Salida y Offboarding',
+    idx1sub:'4 temas', idx2sub:'3 temas', idx3sub:'5 temas', idx4sub:'3 temas + subtemas', idx5sub:'5 temas', idx6sub:'3 temas',
+    statTotal:'Total materiales', statActive:'Con link activo', statPending:'Pendientes link', statWip:'WIP / En proceso',
+    ticketBtn:'🎫 Generar Ticket',
+    ticketTitle:'🎫 Generar Ticket de Solicitud', ticketSub:'Material nuevo, actualización o reporte de problema',
+    ticketTypeLabel:'Tipo de solicitud', ticketSectionLabel:'Sección relacionada',
+    ticketMaterialLabel:'Nombre del material o tema', ticketDescLabel:'Descripción del problema o solicitud',
+    ticketPrioLabel:'Prioridad', ticketNameLabel:'Tu nombre o equipo',
+    ticketMaterialPh:'Ej. KPI Dashboard Módulo, Onboarding Process…',
+    ticketDescPh:'Describe qué necesitas, qué está desactualizado o qué no funciona…',
+    ticketNamePh:'Ej. Andrea Arciniega · Equipo VM',
+    ticketCancel:'Cancelar', ticketSubmit:'Enviar Ticket →',
+    footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Última actualización: 06-08-26',
+    tsToday:'Hoy', tsDays:'Hace {n}d', tsWeeks:'Hace {n}sem', tsMonths:'Hace {n}meses', tsYears:'Hace {n}año(s)',
+    ageFresh:'Reciente (<30 días)', ageOk:'Normal (1–3 meses)', ageOld:'Revisar (3–6 meses)', ageStale:'Desactualizado (>6 meses)'
+  },
+  en: {
+
+    p1title:'Project Background / Team & Roles Overview', p1desc:'Internal training and briefing sessions for relationship managers.',
+    p2title:'Systems & Access', p2desc:'Core productivity tools for information flow and data transparency.',
+    p3title:'Vendor Sourcing & Contracting', p3desc:'Tools for commercial negotiations and attracting new partners.',
+    p4title:'Training & Empowerment', p4desc:'Materials for training Vendors and their couriers.',
+    p5title:'Operations Management & Optimization', p5desc:'Daily management tools to improve Vendor performance.',
+    p6title:'Offboarding Standards & Processes', p6desc:'Criteria and procedures for Vendor deactivation.',
+    t11:'Team Introduction: Courier Labs Context and Food Delivery Vision',
+    t12:'Code of Conduct: Team Red Line',
+    t13:'Performance Rules: KPI Evaluation Standards',
+    t14:'Goal Tracking: Annual Team Goals Board Y25/Y26 (Target 100D)',
+    t21:'Gattaran: Courier Management', t22:'EastWind: Core Operational Platform for Partners',
+    t23:'Data Dashboards: Daily Panels by Vendor and Zone',
+    t31:'Negotiation Proposals', t32:'Prospects Pool / Leads Pool',
+    t33:'Registration & Onboarding Guide', t34:'Incentive Policies: Signing Incentives and Operational Policies',
+    t35:'Material Preparation: Vendor Bags/Backpacks',
+    t411:'VM Training Sessions', t412:'RM Training Sessions',
+    t42:'Vendor Training', t43:'Courier Training',
+    t50:'RM Base Resources', t51:'Zone Planning: HotZones and Quota Targets',
+    t52:'Key Indicators Management: Courier Dashboard',
+    t53:'Financial Management: Billing and Debt',
+    t54:'Evaluation & Standards: DiDi Alianza Levels and Appeals Management',
+    t55:'Experience', t61:'Underperformance Criteria: Contract Termination Thresholds',
+    t62:'Replacement Flow: Zone Transition Protocol Between Vendors',
+    t63:'Administrative Offboarding: Asset Handover and Final Debt Settlement',
+    forAllTeam:'All Team', forDelivery:'Delivery Partner Team', forSupply:'Supply Growth Team', forFinance:'Finance+Tax',
+    badgeWip:'⏳ WIP', badgeWipDoc:'⏳ WIP — pending write-up', badgeTbd:'⏳ To be defined',
+    leg1:'<30 days', leg2:'1–3 months', leg3:'3–6 months', leg4:'>6 months',
+    coursesTitle:'🎓 Available Courses', courseNew:'⭐ New', courseType:'📹 Video + Quiz', courseDur:'~5 min', courseStart:'Start →',
+    nav1:'Team', nav2:'Systems', nav3:'Sourcing', nav4:'Training', nav5:'Operations', nav6:'Offboarding',
+    heroEyebrow:'Vendor Growth & Training Strategy',
+    heroSub:'Centralized training materials repository for the Alianza team.',
+    chip1:'📋 Team & Roles', chip2:'🖥️ Systems', chip3:'🤝 Sourcing', chip4:'🎓 Training', chip5:'⚙️ Operations', chip6:'🚪 Offboarding',
+    filterForLabel:'For Who:', filterFromLabel:'From Who:', filterAgeLabel:'Last updated:', filterReset:'✕ Clear',
+    optAll:'All', optAllTeam:'All Team',
+    sidebarTitle:'Index',
+    idxTitle1:'Team & Roles', idxTitle2:'Systems & Access', idxTitle3:'Vendor Sourcing',
+    idxTitle4:'Training', idxTitle5:'Operations', idxTitle6:'Offboarding',
+    idx1sub:'4 topics', idx2sub:'3 topics', idx3sub:'5 topics', idx4sub:'3 topics + subtopics', idx5sub:'5 topics', idx6sub:'3 topics',
+    statTotal:'Total materials', statActive:'Active links', statPending:'Pending links', statWip:'WIP / In progress',
+    ticketBtn:'🎫 Submit Ticket',
+    ticketTitle:'🎫 Submit a Request Ticket', ticketSub:'New material, update or bug report',
+    ticketTypeLabel:'Request type', ticketSectionLabel:'Related section',
+    ticketMaterialLabel:'Material or topic name', ticketDescLabel:'Description of the issue or request',
+    ticketPrioLabel:'Priority', ticketNameLabel:'Your name or team',
+    ticketMaterialPh:'e.g. KPI Dashboard Module, Onboarding Process…',
+    ticketDescPh:'Describe what you need, what is outdated or what is not working…',
+    ticketNamePh:'e.g. Andrea Arciniega · VM Team',
+    ticketCancel:'Cancel', ticketSubmit:'Submit Ticket →',
+    footer:'DiDi Alianza Learning School · Vendor Growth & Training Strategy · Last updated: 06-08-26',
+    tsToday:'Today', tsDays:'{n}d ago', tsWeeks:'{n}wk ago', tsMonths:'{n}mo ago', tsYears:'{n}yr ago',
+    ageFresh:'Recent (<30 days)', ageOk:'Normal (1–3 months)', ageOld:'Review (3–6 months)', ageStale:'Outdated (>6 months)'
+  },
+  zh: {
+
+    p1title:'项目背景 / 团队与职责概览', p1desc:'内部培训和关系经理信息简报。',
+    p2title:'系统与权限', p2desc:'基础生产力工具，保障信息流通与数据透明。',
+    p3title:'供应商招募与签约', p3desc:'用于商业谈判和吸引新合作伙伴的工具。',
+    p4title:'培训赋能', p4desc:'供应商及配送员的培训材料。',
+    p5title:'运营管理与优化', p5desc:'提升供应商效率的日常管理工具。',
+    p6title:'离场标准与流程', p6desc:'供应商退出的标准与程序。',
+    t11:'团队介绍：Courier Labs背景与外卖业务愿景',
+    t12:'行为准则：团队红线',
+    t13:'绩效规则：KPI评估标准',
+    t14:'目标追踪：Y25/Y26年度目标看板（Target 100D）',
+    t21:'Gattaran：配送员管理', t22:'EastWind：合作伙伴核心运营平台',
+    t23:'数据看板：按供应商和区域的每日更新面板',
+    t31:'谈判提案', t32:'潜在客户池 / Leads Pool',
+    t33:'注册与入驻指南', t34:'激励政策：签约激励与运营政策摘要',
+    t35:'材料准备：供应商背包/送餐袋',
+    t411:'VM培训课程', t412:'RM培训课程',
+    t42:'供应商培训', t43:'配送员培训',
+    t50:'RM基础资源', t51:'区域规划：热区与配额目标',
+    t52:'核心指标管理：配送员数据看板',
+    t53:'财务管理：账单与债务',
+    t54:'评估与标准：DiDi Alianza等级与申诉管理',
+    t55:'经验', t61:'绩效不达标标准：合同终止门槛',
+    t62:'替换流程：供应商间区域交接协议',
+    t63:'行政离场：资产交接与最终债务结算',
+    forAllTeam:'全体团队', forDelivery:'配送合作团队', forSupply:'供应增长团队', forFinance:'财务+税务',
+    badgeWip:'⏳ 进行中', badgeWipDoc:'⏳ 进行中 — 待编写', badgeTbd:'⏳ 待定',
+    leg1:'<30天', leg2:'1–3个月', leg3:'3–6个月', leg4:'>6个月',
+    coursesTitle:'🎓 可用课程', courseNew:'⭐ 新课', courseType:'📹 视频+评估', courseDur:'~5分钟', courseStart:'开始 →',
+    nav1:'团队', nav2:'系统', nav3:'招募', nav4:'培训', nav5:'运营', nav6:'离场',
+    heroEyebrow:'供应商成长与培训战略',
+    heroSub:'Alianza团队培训材料的集中仓库。',
+    chip1:'📋 团队与职责', chip2:'🖥️ 系统与权限', chip3:'🤝 供应商招募', chip4:'🎓 培训赋能', chip5:'⚙️ 运营管理', chip6:'🚪 离场流程',
+    filterForLabel:'受众：', filterFromLabel:'负责人：', filterAgeLabel:'更新时间：', filterReset:'✕ 重置',
+    optAll:'全部', optAllTeam:'全体团队',
+    sidebarTitle:'目录',
+    idxTitle1:'团队与职责', idxTitle2:'系统与权限', idxTitle3:'供应商招募',
+    idxTitle4:'培训赋能', idxTitle5:'运营管理', idxTitle6:'离场流程',
+    idx1sub:'4个主题', idx2sub:'3个主题', idx3sub:'5个主题', idx4sub:'3个主题+子主题', idx5sub:'5个主题', idx6sub:'3个主题',
+    statTotal:'材料总数', statActive:'有效链接', statPending:'待补充链接', statWip:'进行中',
+    ticketBtn:'🎫 提交工单',
+    ticketTitle:'🎫 提交需求工单', ticketSub:'新增材料、更新申请或问题反馈',
+    ticketTypeLabel:'申请类型', ticketSectionLabel:'相关板块',
+    ticketMaterialLabel:'材料或主题名称', ticketDescLabel:'问题或需求描述',
+    ticketPrioLabel:'优先级', ticketNameLabel:'你的姓名或团队',
+    ticketMaterialPh:'例：KPI看板模块、入驻流程…',
+    ticketDescPh:'请描述你需要什么、哪里需要更新或哪里无法正常使用…',
+    ticketNamePh:'例：Andrea Arciniega · VM团队',
+    ticketCancel:'取消', ticketSubmit:'提交工单 →',
+    footer:'DiDi Alianza Learning School · 供应商成长与培训战略 · 最后更新：06-08-26',
+    tsToday:'今天', tsDays:'{n}天前', tsWeeks:'{n}周前', tsMonths:'{n}个月前', tsYears:'{n}年前',
+    ageFresh:'最新（<30天）', ageOk:'正常（1–3个月）', ageOld:'需审查（3–6个月）', ageStale:'已过时（>6个月）'
+  }
+};
+
+
+var currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === {es:'ES',en:'EN',zh:'中文'}[lang]));
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  // Update filter options
+  const ageSelect = document.getElementById('filterAge');
+  if (ageSelect) {
+    ageSelect.options[0].text = t.optAll;
+    ageSelect.options[1].text = t.ageFresh;
+    ageSelect.options[2].text = t.ageOk;
+    ageSelect.options[3].text = t.ageOld;
+    ageSelect.options[4].text = t.ageStale;
+  }
+  const forSelect = document.getElementById('filterFor');
+  if (forSelect) { forSelect.options[0].text = t.optAll; }
+  const fromSelect = document.getElementById('filterFrom');
+  if (fromSelect) { fromSelect.options[0].text = t.optAll; }
+  // Re-render timestamps
+  document.querySelectorAll('.topic').forEach(topic => {
+    const dateStr = topic.dataset.date;
+    if (!dateStr) return;
+    const ts = topic.querySelector('.timestamp');
+    if (!ts) return;
+    const cls = getAgeClass(dateStr);
+    const lbl = getAgeLabelI18n(dateStr, t);
+    ts.className = 'timestamp ts-' + cls;
+    ts.innerHTML = `<span class="ts-dot"></span>${lbl} (${dateStr.slice(5).replace('-','/')})`;
+  });
+}
+
+function getAgeLabelI18n(dateStr, t) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const days = Math.floor((now - d) / 86400000);
+  if (days < 1)   return t.tsToday;
+  if (days < 30)  return t.tsDays.replace('{n}', days);
+  if (days < 90)  return t.tsWeeks.replace('{n}', Math.floor(days/7));
+  if (days < 365) return t.tsMonths.replace('{n}', Math.floor(days/30));
+  return t.tsYears.replace('{n}', Math.floor(days/365));
+}
+
+// ── GLOBAL SEARCH ─────────────────────────────────────────────────────────────
+function globalSearchFn(q) {
+  const val = q.trim().toLowerCase();
+  const clearBtn = document.getElementById('searchClear');
+  const countEl = document.getElementById('searchCount');
+  clearBtn.classList.toggle('visible', val.length > 0);
+  if (!val) { clearSearch(); return; }
+  let total = 0;
+  document.querySelectorAll('.topic').forEach(t => {
+    const text = t.innerText.toLowerCase();
+    const match = text.includes(val);
+    t.classList.toggle('filtered-out', !match);
+    if (match) total++;
+  });
+  document.querySelectorAll('.part').forEach(part => {
+    const body = part.querySelector('.part-body');
+    if (!body) return;
+    const any = [...body.querySelectorAll('.topic')].some(t => !t.classList.contains('filtered-out'));
+    part.classList.toggle('hidden-part', !any);
+    if (any && body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      const num = part.id.replace('parte','');
+      const tog = document.getElementById('t'+num);
+      if (tog) tog.classList.add('open');
+    }
+  });
+  countEl.textContent = val ? total + ' resultado(s)' : '';
+}
+function clearSearch() {
+  document.getElementById('globalSearch').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('searchCount').textContent = '';
+  document.querySelectorAll('.topic').forEach(t => t.classList.remove('filtered-out'));
+  document.querySelectorAll('.part').forEach(p => p.classList.remove('hidden-part'));
+}
+
+// ── CHATBOT ───────────────────────────────────────────────────────────────────
+const MATERIALES = [
+  {title:'Courier Labs Team', section:'1.1 Introducción al Equipo', keywords:['courier','labs','team','equipo','introducción']},
+  {title:'Alianza Structure', section:'1.1 Introducción al Equipo', keywords:['alianza','structure','estructura']},
+  {title:'Team Red Line', section:'1.2 Código de Conducta', keywords:['red line','línea roja','conducta','cumplimiento','reglas']},
+  {title:'KPI Dashboard', section:'1.3 Reglas de Desempeño', keywords:['kpi','dashboard','desempeño','evaluación','métricas']},
+  {title:'Gattaran', url:'https://gattaran.didi-food.com/v2/d-side/summary', section:'2.1 Sistemas', keywords:['gattaran','repartidores','gestión','sistema']},
+  {title:'EastWind', url:'https://page.didiglobal.com', section:'2.2 Sistemas', keywords:['eastwind','east wind','plataforma','operativa','socio']},
+  {title:'Vendor by Hotzone', section:'2.3 Dashboards', keywords:['hotzone','zona','mapa','dashboard','vendor']},
+  {title:'CDMX OP-Zona', section:'2.3 Dashboards', keywords:['cdmx','ciudad de méxico','zona','mapa']},
+  {title:'MTY OP-Zone', section:'2.3 Dashboards', keywords:['mty','monterrey','zona','mapa']},
+  {title:'Propuesta CDMX', section:'3.1 Propuestas', keywords:['propuesta','cdmx','precio','negociación']},
+  {title:'Propuesta MTY', section:'3.1 Propuestas', keywords:['propuesta','mty','precio','negociación']},
+  {title:'Tracking List New Pipeline', url:'https://cooper.didichuxing.com/docs2/sheet/2207487976749', section:'3.2 Leads Pool', keywords:['pipeline','leads','prospectos','tracking','socios']},
+  {title:'Onboarding Process', section:'3.3 Guía de Registro', keywords:['onboarding','registro','ingreso','proceso']},
+  {title:'Google Form Onboarding', url:'https://docs.google.com/forms/d/1YMv-oGZBAWWXeZQ_oZYqE0wsu7rY7vxPZ2HqTAYThsc/edit', section:'3.3 Guía de Registro', keywords:['form','formulario','registro','onboarding']},
+  {title:'Colaboration Agreement / Contrato', section:'3.3 Guía de Registro', keywords:['contrato','agreement','nda','colaboración','documentos']},
+  {title:'Capacitación para VM', section:'4.1.1 Capacitaciones VM', keywords:['vm','capacitación','vendor','manager','formación']},
+  {title:'Capacitación para RM', section:'4.1.2 Capacitaciones RM', keywords:['rm','relationship','manager','capacitación','formación']},
+  {title:'Guía Operativa Couriers', section:'4.3 Repartidores', keywords:['courier','repartidor','guía','operativa','entrega']},
+  {title:'Vendor Dashboard v1.0', url:'https://cooper.didichuxing.com/docs2/sheet/2206128278347', section:'5. Gestión Operativa', keywords:['vendor','dashboard','datos','métricas','operativo']},
+  {title:'SOP Billing y Deuda', section:'5.3 Gestión Financiera', keywords:['billing','facturación','deuda','sop','finanzas','pago']},
+  {title:'Sistema de Niveles DiDi Alianza', section:'5.2 Indicadores', keywords:['niveles','levels','partner','alianza','beneficios']},
+  {title:'Offboarding / Salida', section:'6. Salida', keywords:['salida','offboarding','rescisión','contrato','baja']},
+];
+
+const FAQ = [
+  { q:['qué es gattaran','para qué sirve gattaran','cómo uso gattaran'], a:'Gattaran es la plataforma para gestionar repartidores. Puedes acceder directamente desde el repositorio en la sección 2.1 Sistemas.' },
+  { q:['qué es eastwind','para qué sirve eastwind','cómo entro a eastwind'], a:'EastWind es la plataforma operativa central para los socios (vendors). Está en la sección 2.2 Sistemas con link directo.' },
+  { q:['cómo hago onboarding','proceso de onboarding','cómo registro un vendor'], a:'El proceso de onboarding está en la sección 3.3. Incluye el Google Form de registro, los documentos requeridos y el Collaboration Agreement.' },
+  { q:['qué son los kpis','indicadores clave','métricas principales'], a:'Los KPIs principales están en la sección 1.3 (evaluación de desempeño) y en la 5.2 (gestión de indicadores). También hay un dashboard en el repositorio.' },
+  { q:['cómo genero un ticket','tengo un problema','algo no funciona','link roto'], a:'Usa el botón 🎫 "Generar Ticket" en la esquina superior derecha. Puedes reportar links rotos, pedir material nuevo o dejar feedback.' },
+  { q:['cómo contacto al equipo','a quién le pregunto','quién es responsable'], a:'Cada material tiene un responsable (From Who). Para dudas generales puedes generar un ticket con tipo "Feedback general" y el equipo te responderá.' },
+  { q:['qué hay en onboarding','materiales de onboarding'], a:'En la sección 3.3 encuentras: el proceso de onboarding, documentos requeridos, NDA, contrato, Collaboration Agreement y el Google Form.' },
+  { q:['cómo cambio el idioma','traducción','inglés','chino'], a:'En la esquina superior derecha hay un selector ES / EN / 中文 para cambiar el idioma de la interfaz.' },
+];
+
+let chatOpen = false;
+let chatInited = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatPanel').classList.toggle('open', chatOpen);
+  document.getElementById('chatNotif').classList.remove('show');
+  if (chatOpen && !chatInited) { chatInited = true; initChat(); }
+  if (chatOpen) setTimeout(() => document.getElementById('chatInput').focus(), 200);
+}
+
+function initChat() {
+  addMsg('bot', '¡Hola! 👋 Soy <strong>Ali</strong>, tu asistente del DiDi Alianza Learning School.<br>Puedo ayudarte a encontrar materiales o responder preguntas del equipo. ¿En qué te ayudo?');
+}
+
+function addMsg(role, html) {
+  const msgs = document.getElementById('chatMessages');
+  const now = new Date().toLocaleTimeString('es-MX', {hour:'2-digit', minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = `<div class="msg-bubble">${html}</div><div class="msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg bot'; div.id = 'typingIndicator';
+  div.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+function sendSug(btn) {
+  const text = btn.textContent;
+  document.getElementById('chatSugs').style.display = 'none';
+  processMessage(text);
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  document.getElementById('chatSugs').style.display = 'none';
+  processMessage(text);
+}
+
+async function processMessage(text) {
+  addMsg('user', text);
+  showTyping();
+
+  // 1. Search in local materials first
+  const q = text.toLowerCase();
+  const localMatches = MATERIALES.filter(m => m.keywords.some(k => q.includes(k)));
+
+  // 2. Check FAQ
+  const faqMatch = FAQ.find(f => f.q.some(fq => q.includes(fq.split(' ')[0]) && q.includes(fq.split(' ').slice(-1)[0])));
+
+  await new Promise(r => setTimeout(r, 800 + Math.random()*600));
+  hideTyping();
+
+  if (faqMatch) {
+    addMsg('bot', faqMatch.a);
+    if (localMatches.length) {
+      const links = localMatches.slice(0,3).map(m => m.url
+        ? `<a href="${m.url}" target="_blank">🔗 ${m.title} — ${m.section}</a>`
+        : `<span style="color:var(--gray-4)">📄 ${m.title} — ${m.section}</span>`).join('');
+      setTimeout(() => addMsg('bot', 'Materiales relacionados:<br>' + links), 400);
+    }
+    return;
+  }
+
+  if (localMatches.length) {
+    const links = localMatches.slice(0,4).map(m => m.url
+      ? `<a href="${m.url}" target="_blank">🔗 ${m.title} — ${m.section}</a>`
+      : `<span style="color:var(--gray-4)">📄 ${m.title} — ${m.section}</span>`).join('');
+    addMsg('bot', `Encontré ${localMatches.length} material(es) relacionado(s):<br>${links}`);
+    return;
+  }
+
+  // 3. Fall back to Claude API
+  try {
+    showTyping();
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: 'Eres Ali, el asistente virtual del DiDi Alianza Learning School. Ayudas al equipo de Alianza (Venezuela Growth, RM, VM) con preguntas sobre materiales de capacitación, procesos operativos, onboarding de vendors, KPIs y herramientas como Gattaran y EastWind. Responde en español, de forma concisa (máximo 3 oraciones). Si no sabes algo específico del repositorio, sugiere generar un ticket.',
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    const data = await res.json();
+    hideTyping();
+    const reply = data.content?.[0]?.text || 'No pude obtener una respuesta. ¿Puedo ayudarte con algo más?';
+    addMsg('bot', reply);
+  } catch(e) {
+    hideTyping();
+    addMsg('bot', 'No encontré materiales exactos para tu búsqueda. Te recomiendo usar el buscador de arriba o generar un ticket 🎫 para que el equipo te ayude.');
+  }
+}
+
+// Show notif after 3s
+setTimeout(() => {
+  if (!chatOpen) document.getElementById('chatNotif').classList.add('show');
+}, 3000);
+
+</script>
+</body>
+</html>
